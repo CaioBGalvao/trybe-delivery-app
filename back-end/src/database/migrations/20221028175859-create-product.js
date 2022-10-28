@@ -14,10 +14,7 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT(decimals=2)
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      name: {
+      url_image: {
         type: Sequelize.STRING
       },
     });
