@@ -17,14 +17,13 @@ services:
     depends_on:
       - backend
     networks:
-      - vitual_wan_Front-to-Back
+      - virtual_wan_Front-to-Back
 
   backend:
     image: node:16.18
     platform: linux/x86_64 # para o MAC
     container_name: delivery_app_backend
     build: ./back-end
-    # user: node
     working_dir: /app/back-end
     volumes:
       - ./back-end:/app/back-end
@@ -42,8 +41,8 @@ services:
       HOSTNAME: db
       JWT_SECRET: secretJWT
     networks:
-      - vitual_wan_Front-to-Back
-      - vitual_lan_Back-to-DB
+      - virtual_wan_Front-to-Back
+      - virtual_lan_Back-to-DB
 
   db:
     image: mysql:8.0.31
@@ -53,11 +52,13 @@ services:
     ports:
       - 3306:3306
     environment:
+      MYSQL_HOST: localhost
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DB_NAME: delivery-app
     networks:
-      - vitual_lan_Back-to-DB
+      - virtual_lan_Back-to-DB
     cap_add:
-      - SYS_NICE # para ocultar avisos de erros menores
+      - SYS_NICE
 
 networks:
 # The presence of these objects is sufficient to define them
