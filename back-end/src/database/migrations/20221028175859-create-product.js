@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       price: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(decimals=2)
       },
       name: {
         type: Sequelize.STRING
