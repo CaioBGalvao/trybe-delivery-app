@@ -1,5 +1,5 @@
 const Sales = (sequelize, DataTypes) => {
-  const Sales = sequelize.define('sales', {
+  const Sales = sequelize.define('Sales', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     user_id: { type: DataTypes.INTEGER, foreignKey: true },
     seller_id: { type: DataTypes.INTEGER, foreignKey: true },
@@ -17,17 +17,21 @@ const Sales = (sequelize, DataTypes) => {
   Sales.associate = (models) => {
     Sales.belongsTo(models.User, {
       foreignKey: 'user_id',
-      as: 'user',
+      as: 'User',
     });
+  }
+
+  Sales.associate = (models) => {
     Sales.belongsTo(models.User, {
       foreignKey: 'seller_id',
-      as: 'user',
+      as: 'User',
     });
     Sales.hasMany(models.SaleProduct, {
       foreignKey: 'sale_id',
-      as: 'saleProduct',
+      as: 'SaleProduct',
     });
   }
+
   return Sales;
 }
 

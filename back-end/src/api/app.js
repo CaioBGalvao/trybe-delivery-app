@@ -9,9 +9,7 @@ app.use(express.json());
 app.get('/coffee', (_req, res) => res.status(418).end());
 
 // rotas aqui
-
 app.use(router);
-
-app.use(errorHandler); // TypeError: app.use() requires a middleware function
+app.use(errorHandler)
 
 module.exports = app;
