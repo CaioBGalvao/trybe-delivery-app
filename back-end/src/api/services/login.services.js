@@ -1,4 +1,4 @@
-const userModel = require('../../database/models/user');
+const User = require('../../database/models');
 const validateLogin = require('../Schemas/login/login.schema');
 const { crypto, jwt } = require('../security');
 
@@ -7,7 +7,7 @@ const login = async (userObject) => {
 
   const { email, password } = validationResult;
 
-  const user = await userModel.findOne({
+  const user = await User.findOne({
     logging: console.log,
     attributes: ['email', 'password'],
     where: { email },
