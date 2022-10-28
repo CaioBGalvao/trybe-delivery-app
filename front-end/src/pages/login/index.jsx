@@ -7,6 +7,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const [validateEmail, setValidateEmail] = useState(false);
   const [validatePassword, setValidatePassword] = useState(false);
+  const [validateApi, setValidateApi] = useState('ok');
+  // const [] = useState(false);
 
   // Validação de email e senha
 
@@ -30,6 +32,7 @@ function Login() {
 
   useEffect(() => {
     // Vai ser utilizado para se comunicar com a api
+    setValidateApi('ok');
   }, [validateEmail, validatePassword, email, password]);
 
   return (
@@ -67,12 +70,16 @@ function Login() {
       >
         LOGIN
       </button>
-      <button
-        type="button"
-        data-testid="common_login__button-register"
-      >
-        Ainda não tenho conta
-      </button>
+      <a href="/register">
+        <button
+          type="button"
+          data-testid="common_login__button-register"
+        >
+          Ainda não tenho conta
+        </button>
+      </a>
+      { validateApi === 'ok' ? ('')
+        : (<p datatest-id="common_login__element-invalid-email">{ validateApi }</p>) }
     </>
   );
 }
