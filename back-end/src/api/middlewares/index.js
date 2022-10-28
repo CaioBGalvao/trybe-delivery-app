@@ -1,4 +1,4 @@
-const ErrorHandler = require('./ErrorHandler.middlewares');
+const errorHandler = require('./ErrorHandler.middlewares');
 const loginMiddleware = require('./login.badRequest');
 
-module.exports = { ErrorHandler, loginMiddleware };
+module.exports = { errorHandler, loginMiddleware };

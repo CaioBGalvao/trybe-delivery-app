@@ -1,6 +1,6 @@
 const express = require('express');
 require('express-async-errors');
-const { ErrorHandler } = require('./middlewares');
+const { errorHandler } = require('./middlewares');
 const routers = require('./routers');
 
 const app = express();
@@ -11,5 +11,6 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 // rotas aqui
 app.use('/login', routers.loginRouter);
 
-app.use(ErrorHandler());
+app.use(errorHandler); // TypeError: app.use() requires a middleware function
+
 module.exports = app;
