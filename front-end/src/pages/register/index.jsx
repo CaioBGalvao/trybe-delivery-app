@@ -15,7 +15,7 @@ function Register() {
     if (name.length < minLength) {
       button.disabled = true;
     } else {
-      button.disabled = true;
+      button.disabled = false;
     }
   };
 
