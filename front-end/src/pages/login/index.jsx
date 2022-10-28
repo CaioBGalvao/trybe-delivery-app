@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <>
       <label htmlFor="emailLogin">
         Login
-        <input id="emailLogin" type="email" data-testid="common_login__input-email" />
+        <input
+          id="emailLogin"
+          type="email"
+          data-testid="common_login__input-email"
+          onChange={ ({ target: { value } }) => setEmail(value) }
+          value={ email }
+        />
       </label>
       <label htmlFor="passwordLogin">
         Senha
@@ -13,6 +22,8 @@ function Login() {
           id="passwordLogin"
           type="password"
           data-testid="common_login__input-password"
+          onChange={ ({ target: { value } }) => setPassword(value) }
+          value={ password }
         />
       </label>
       <button
