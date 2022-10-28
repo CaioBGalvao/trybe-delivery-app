@@ -5,17 +5,18 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validate, setValidate] = useState(true);
 
-  const button = document.querySelector('#button-submit');
+  // const button = document.querySelector('#button-submit');
 
   // Validacao dos campos Nome, Email e Senha
   const nameValidation = (nameInfo) => {
     const minLength = 12;
     setName(nameInfo);
-    if (name.length < minLength) {
-      button.disabled = true;
+    if (name.length > minLength) {
+      setValidate(false);
     } else {
-      button.disabled = false;
+      setValidate(true);
     }
   };
 
@@ -23,19 +24,19 @@ function Register() {
     setEmail(emailInfo);
     const regex = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
     if (regex.test(email)) {
-      button.disabled = false;
+      setValidate(false);
     } else {
-      button.disabled = true;
+      setValidate(true);
     }
   };
 
   const passwordValidation = (passInfo) => {
     const minLength = 6;
     setPassword(passInfo);
-    if (password.length < minLength) {
-      button.disabled = true;
+    if (password.length > minLength) {
+      setValidate(false);
     } else {
-      button.disabled = false;
+      setValidate(true);
     }
   };
 
@@ -72,6 +73,7 @@ function Register() {
           data-testid="common_register__button-register"
           type="submit"
           id="button-submit"
+          disabled={ validate }
         >
           Cadastrar
         </button>
