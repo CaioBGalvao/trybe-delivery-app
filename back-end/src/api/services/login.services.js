@@ -7,7 +7,7 @@ const login = async (userObject) => {
 
   const { email, password } = validationResult;
 
-  const user = await  User .findOne({
+  const user = await  User.findOne({
     logging: console.log,
     attributes: ['email', 'password'],
     where: { email },
