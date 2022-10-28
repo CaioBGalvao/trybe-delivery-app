@@ -8,6 +8,7 @@ function Register() {
   const [nameValidate, setNameValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
   const [passwordValidate, setPasswordValidate] = useState(false);
+  const [failedRegister, setFailedRegister] = useState(false);
 
   // Validacao dos campos Nome, Email e Senha
   const nameValidation = (nameInfo) => {
@@ -38,6 +39,10 @@ function Register() {
     } else {
       setPasswordValidate(false);
     }
+  };
+
+  const handleSubmit = () => {
+    setFailedRegister(true);
   };
 
   return (
@@ -71,13 +76,23 @@ function Register() {
         </label>
         <button
           data-testid="common_register__button-register"
-          type="submit"
+          type="button"
+          onClick={ handleSubmit }
           id="button-submit"
           disabled={ !(nameValidate === true
             && emailValidate === true && passwordValidate === true) }
         >
           Cadastrar
         </button>
+        {
+          (failedRegister)
+            ? (
+              <p data-testid="common_register__element-invalid_register">
+                Usuário ja cadastrado
+              </p>
+            )
+            : null
+        }
       </form>
     </section>
   );
