@@ -1,9 +1,9 @@
-const CryptoJS = require('crypto-js/md5');
+const CryptoJs = require('crypto-js/md5');
 
 const passwordValidator = ({ userPassword, dbPassword }) => {
-  const decryptedPassword = CryptoJS(userPassword);
+  const decryptedPassword = CryptoJs(userPassword);
   if (dbPassword !== decryptedPassword.toString()) {
-    throw new Error('Incorrect email or password&404');
+    throw new Error('Incorrect email or password&401');
   }
   return true;
 };
