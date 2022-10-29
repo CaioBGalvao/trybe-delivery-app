@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Product.associate = (models) => {
-    Product.hasMany(models.Sales, {
+    Product.hasMany(models.SaleProduct, {
       foreignKey: 'product_id',
-      as: 'product'
+      as: 'salesProducts'
     });
-  }
+  };
 
   return Product;
 }

@@ -1,4 +1,4 @@
-import { loginService } from '../services';
+const { loginService } = require('../services');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -8,4 +8,4 @@ const login = async (req, res) => {
 };
 const create = async (_req, _res) => {};
 
-export { login, create };
+module.exports = { login, create };
