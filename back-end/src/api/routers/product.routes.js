@@ -1,5 +1,5 @@
-import { Router } from "express";
+const { Router } = require('express');
 
-const productRouter = Router()
+const productRouter = Router();
 
 module.exports = productRouter;
