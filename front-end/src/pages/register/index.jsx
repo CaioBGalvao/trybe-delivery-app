@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import handleFetch from '../../services/api';
 
 function Register() {
@@ -14,10 +15,11 @@ function Register() {
 
   // Requisicao de registro
   const [failedRegister, setFailedRegister] = useState(false);
+  const [successRegister, setSuccessRegister] = useState(false);
 
   // Validacao dos campos Nome, Email e Senha
   const nameValidation = (nameInfo) => {
-    const minLength = 12;
+    const minLength = 10;
     setName(nameInfo);
     if (name.length > minLength) {
       setNameValidate(true);
@@ -56,10 +58,18 @@ function Register() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login', registerObj);
+      const response = await handleFetch('POST', '/login/cadastro', registerObj);
+      const message = 'Email already registered';
+      if (response.message === message) {
+        setFailedRegister(true);
+        setSuccessRegister(false);
+      } else {
+        setSuccessRegister(true);
+      }
+
       console.log(response);
     } catch (error) {
-      setFailedRegister(true);
+      return error;
     }
   };
 
@@ -113,6 +123,11 @@ function Register() {
                 Usuário ja cadastrado
               </p>
             )
+            : null
+        }
+        {
+          (successRegister)
+            ? <Navigate to="/customer/products" />
             : null
         }
       </form>
