@@ -12,6 +12,8 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 
 // rotas aqui
 app.use('/login', router.loginRouter);
+
+// middleware de erro
 app.use(errorHandler);
 
 module.exports = app;
