@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import handleFetch from '../../services/api';
+import './index.css';
 
 function Login() {
   // capturando a rota atual
