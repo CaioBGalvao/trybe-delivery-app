@@ -22,7 +22,7 @@ export default async function handleFetch(type, ENDPOINT, body) {
       method: type,
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json',
+        'content-type': 'application/json',
         Accept: 'application/json',
       },
     };

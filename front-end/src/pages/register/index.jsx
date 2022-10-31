@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import handleFetch from '../../services/api';
 
 function Register() {
   // Configuracao inicial do state register
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Validacoes
   const [nameValidate, setNameValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
   const [passwordValidate, setPasswordValidate] = useState(false);
 
+  // Requisicao de registro
+  const [failedRegister, setFailedRegister] = useState(false);
+  const [successRegister, setSuccessRegister] = useState(false);
+
   // Validacao dos campos Nome, Email e Senha
   const nameValidation = (nameInfo) => {
-    const minLength = 12;
+    const minLength = 10;
     setName(nameInfo);
     if (name.length > minLength) {
       setNameValidate(true);
@@ -31,14 +39,43 @@ function Register() {
   };
 
   const passwordValidation = (passInfo) => {
-    const minLength = 6;
     setPassword(passInfo);
-    if (password.length > minLength) {
-      setPasswordValidate(true);
-    } else {
+    const minLength = 4;
+    if (password.length <= minLength) {
       setPasswordValidate(false);
+    } else {
+      setPasswordValidate(true);
     }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const registerObj = {
+      name,
+      email,
+      password,
+    };
+
+    try {
+      const response = await handleFetch('POST', '/login/cadastro', registerObj);
+      const message = 'Email already registered';
+      if (response.message === message) {
+        setFailedRegister(true);
+        setSuccessRegister(false);
+      } else {
+        setSuccessRegister(true);
+      }
+
+      console.log(response);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  useEffect(() => {
+    setFailedRegister(false);
+  }, [name, email, password]);
 
   return (
     <section>
@@ -71,13 +108,28 @@ function Register() {
         </label>
         <button
           data-testid="common_register__button-register"
-          type="submit"
+          type="button"
+          onClick={ (event) => handleSubmit(event) }
           id="button-submit"
           disabled={ !(nameValidate === true
             && emailValidate === true && passwordValidate === true) }
         >
           Cadastrar
         </button>
+        {
+          (failedRegister)
+            ? (
+              <p data-testid="common_register__element-invalid_register">
+                Usuário ja cadastrado
+              </p>
+            )
+            : null
+        }
+        {
+          (successRegister)
+            ? <Navigate to="/customer/products" />
+            : null
+        }
       </form>
     </section>
   );
