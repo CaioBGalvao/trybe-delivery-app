@@ -22,10 +22,11 @@ export default async function handleFetch(type, ENDPOINT, body) {
 
   if (type === 'POST') {
     const requestOptions = {
+      mode: 'no-cors',
       method: type,
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json',
+        'content-type': 'application/json',
         Accept: 'application/json',
       },
     };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import handleFetch from '../../services';
 
 function Register() {
@@ -49,10 +49,21 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await handleFetch('POST', '/cadastro', { name, email, password });
-    console.log(response);
-    setFailedRegister(true);
+    const registerObj = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await handleFetch('POST', '/login', registerObj);
+    } catch (error) {
+      setFailedRegister(true);
+    }
   };
+
+  useEffect(() => {
+    setFailedRegister(false);
+  }, [name, email, password]);
 
   return (
     <section>
@@ -86,7 +97,7 @@ function Register() {
         <button
           data-testid="common_register__button-register"
           type="button"
-          onClick={ handleSubmit }
+          onClick={ (event) => handleSubmit(event) }
           id="button-submit"
           disabled={ !(nameValidate === true
             && emailValidate === true && passwordValidate === true) }
