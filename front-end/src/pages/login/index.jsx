@@ -58,7 +58,7 @@ function Login() {
 
   return (
     <>
-      { location.pathname !== '/login' ? <Navigate to="/login" /> : ''}
+      { location.pathname !== '/login' ? <Navigate to="/login" /> : '' }
       <label htmlFor="emailLogin">
         Login
         <input
