@@ -3,8 +3,7 @@
 // body = {} <--- o que vai ser mandado para o back
 
 export default async function handleFetch(type, ENDPOINT, body) {
-  const formateENDPOINT = `${process.env.HOSTNAME}:${process.env.REACT_PORT}${ENDPOINT}`
-  || `localhost:3001${ENDPOINT}`;
+  const formateENDPOINT = `http://localhost:3001${ENDPOINT}`;
 
   if (type === 'GET') {
     try {
