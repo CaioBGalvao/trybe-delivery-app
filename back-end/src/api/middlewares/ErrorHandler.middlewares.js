@@ -1,4 +1,4 @@
-const middlewareError = (err, _req, res, _next) => {
+const errorHandler = (err, _req, res, _next) => {
   if (err.message.includes('&')) {
     const [message, statusCode] = err.message.split('&');
     return res.status(Number(statusCode)).json({ message });
@@ -7,4 +7,4 @@ const middlewareError = (err, _req, res, _next) => {
   return res.status(500).json({ message: 'Internal server error' });
 };
 
-export default middlewareError;
+module.exports = errorHandler;

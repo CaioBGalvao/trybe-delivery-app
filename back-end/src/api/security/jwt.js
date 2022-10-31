@@ -5,7 +5,7 @@ const jwtOptions = { algorithm: 'HS256', expiresIn: '1d' };
 
 const createToken = (payload) => jwt.sign(payload, jwtSecret, jwtOptions);
 
-const validateToken = (req, res, next) => {
+const validateToken = (req, _res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
