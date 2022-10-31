@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import handleFetch from '../../services';
+import handleFetch from '../../services/api';
 
 function Register() {
   // Configuracao inicial do state register
@@ -19,7 +19,7 @@ function Register() {
   const nameValidation = (nameInfo) => {
     const minLength = 12;
     setName(nameInfo);
-    if (name.length >= minLength) {
+    if (name.length > minLength) {
       setNameValidate(true);
     } else {
       setNameValidate(false);
@@ -37,12 +37,12 @@ function Register() {
   };
 
   const passwordValidation = (passInfo) => {
-    const minLength = 6;
     setPassword(passInfo);
-    if (password.length >= minLength) {
-      setPasswordValidate(true);
-    } else {
+    const minLength = 4;
+    if (password.length <= minLength) {
       setPasswordValidate(false);
+    } else {
+      setPasswordValidate(true);
     }
   };
 
@@ -50,12 +50,14 @@ function Register() {
     event.preventDefault();
 
     const registerObj = {
+      name,
       email,
       password,
     };
 
     try {
       const response = await handleFetch('POST', '/login', registerObj);
+      console.log(response);
     } catch (error) {
       setFailedRegister(true);
     }

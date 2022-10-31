@@ -1,14 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-  const SaleProduct = sequelize.define('salesProducts', {
+  const SalesProduct = sequelize.define('salesProduct', {
     sale_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       foreignKey: true,
+      allowNull: false,
     },
     product_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       foreignKey: true,
+      allowNull: false,
     },
     quantity: DataTypes.INTEGER,
   }, {
@@ -16,22 +18,18 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'salesProducts',
   });
 
-  // SaleProduct.associate = (models) => {
-  //   models.sales.belongsToMany(models.sales, {
-  //     through: SaleProduct,
-  //     as: 'sales',
-  //     foreignKey: 'sale_id',
-  //     otherKey: 'product_id'
-  //   });
+  SalesProduct.associate = (models) => {
+    models.sale.belongsToMany(models.product, {
+      through: SalesProduct,
+      foreignKey: 'sale_id',
+      otherKey: 'product_id',
+    });
+    models.product.belongsToMany(models.sale, {
+      through: SalesProduct,
+      foreignKey: 'product_id',
+      otherKey: 'sale_id',
+    });
+  };
 
-  //   models.products.belongsToMany(models.products, {
-  //     through: SaleProduct,
-  //     as: 'products',
-  //     foreignKey: 'product_id',
-  //     otherKey: 'sale_id'
-  //   });
-  // }
-
-  // Está dando um erro na hora de iniciar o servidor
-  return SaleProduct;
-}
+  return SalesProduct;
+};
