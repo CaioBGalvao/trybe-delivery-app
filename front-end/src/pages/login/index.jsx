@@ -44,7 +44,7 @@ function Login() {
 
     try {
       const response = await handleFetch('POST', '/login', inputsFormate);
-      console.log(response);
+
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
@@ -52,8 +52,6 @@ function Login() {
         setValidateApi('true');
       }
     } catch (e) {
-      console.log(e.message, 'ERRO AQUI');
-
       setValidateApi(e.message);
     }
   };
