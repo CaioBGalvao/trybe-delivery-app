@@ -11,7 +11,7 @@ app.use(cors());
 app.get('/coffee', (_req, res) => res.status(418).end());
 
 // rotas aqui
-app.use(router);
+app.use('/login', router.loginRouter);
 app.use(errorHandler);
 
 module.exports = app;

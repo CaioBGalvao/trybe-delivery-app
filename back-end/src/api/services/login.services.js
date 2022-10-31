@@ -1,4 +1,4 @@
-const { User } = require('../../database/models');
+const { user } = require('../../database/models');
 const validateLogin = require('../Schemas/login/login.schema');
 const { crypto, jwt } = require('../security');
 
@@ -7,18 +7,18 @@ const login = async (userObject) => {
 
   const { email, password } = validationResult;
 
-  const user = await User.findOne({
+  const findedUser = await user.findOne({
     // logging: console.log,
     attributes: ['email', 'password'],
     where: { email },
     raw: true,
   });
 
-  if (!user) {
+  if (!findedUser) {
     throw new Error('Incorrect email or password&404');
   }
 
-  crypto.passwordValidator({ userPassword: password, dbPassword: user.password });
+  crypto.passwordValidator({ userPassword: password, dbPassword: findedUser.password });
 
   return jwt.createToken({ email });
 };
