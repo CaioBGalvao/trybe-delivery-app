@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import handleFetch from '../../services/api';
 
 function Login() {
+  // capturando a rota atual
+
+  const location = useLocation();
+
   // Estados a serem utilizados
 
   const [email, setEmail] = useState('');
@@ -8,7 +14,6 @@ function Login() {
   const [validateEmail, setValidateEmail] = useState(false);
   const [validatePassword, setValidatePassword] = useState(false);
   const [validateApi, setValidateApi] = useState('ok');
-  // const [] = useState(false);
 
   // Validação de email e senha
 
@@ -30,13 +35,31 @@ function Login() {
     }
   };
 
-  useEffect(() => {
-    // Vai ser utilizado para se comunicar com a api
-    setValidateApi('ok');
-  }, [validateEmail, validatePassword, email, password]);
+  const setApi = async () => {
+    const inputsFormate = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await handleFetch('POST', '/login', inputsFormate);
+      console.log(response);
+      if (Object.keys(response)[0] === 'message') {
+        setValidateApi(response.message);
+      } else {
+        window.localStorage.setItem('token', response.token);
+        setValidateApi('true');
+      }
+    } catch (e) {
+      console.log(e.message, 'ERRO AQUI');
+
+      setValidateApi(e.message);
+    }
+  };
 
   return (
     <>
+      { location.pathname !== '/login' ? <Navigate to="/login" /> : ''}
       <label htmlFor="emailLogin">
         Login
         <input
@@ -67,6 +90,7 @@ function Login() {
         type="button"
         data-testid="common_login__button-login"
         disabled={ !(validateEmail === true && validatePassword === true) }
+        onClick={ setApi }
       >
         LOGIN
       </button>
@@ -78,8 +102,9 @@ function Login() {
           Ainda não tenho conta
         </button>
       </a>
-      { validateApi === 'ok' ? ('')
-        : (<p datatest-id="common_login__element-invalid-email">{ validateApi }</p>) }
+      { validateApi === 'ok' && validateApi !== 'true' ? ('')
+        : (<p data-testid="common_login__element-invalid-email">{ validateApi }</p>) }
+      { validateApi === 'true' ? <Navigate to="/customer/products" /> : ''}
     </>
   );
 }
