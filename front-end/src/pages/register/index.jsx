@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
+import handleFetch from '../../services';
 
 function Register() {
   // Configuracao inicial do state register
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Validacoes
   const [nameValidate, setNameValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
   const [passwordValidate, setPasswordValidate] = useState(false);
+
+  // Requisicao de registro
   const [failedRegister, setFailedRegister] = useState(false);
 
   // Validacao dos campos Nome, Email e Senha
   const nameValidation = (nameInfo) => {
     const minLength = 12;
     setName(nameInfo);
-    if (name.length > minLength) {
+    if (name.length >= minLength) {
       setNameValidate(true);
     } else {
       setNameValidate(false);
@@ -34,14 +39,18 @@ function Register() {
   const passwordValidation = (passInfo) => {
     const minLength = 6;
     setPassword(passInfo);
-    if (password.length > minLength) {
+    if (password.length >= minLength) {
       setPasswordValidate(true);
     } else {
       setPasswordValidate(false);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await handleFetch('POST', '/cadastro', { name, email, password });
+    console.log(response);
     setFailedRegister(true);
   };
 

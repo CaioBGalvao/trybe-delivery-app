@@ -62,8 +62,8 @@ services:
 
 networks:
 # The presence of these objects is sufficient to define them
-  vitual_wan_Front-to-Back: {}
-  vitual_lan_Back-to-DB: {}
+  virtual_wan_Front-to-Back: {}
+  virtual_lan_Back-to-DB: {}
 
 # As chaves `tty`, `stdin_open` e `command` fazem com que o container fique
 # rodando em segundo plano, bem como tornam possível o uso do comando
