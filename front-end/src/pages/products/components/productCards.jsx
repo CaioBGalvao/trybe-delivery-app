@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import handleFetch from '../services/api';
+import handleFetch from '../../../services/api';
 
 function RenderProducts() {
   // Configuracao inicial do state

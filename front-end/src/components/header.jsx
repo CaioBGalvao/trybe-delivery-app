@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getFromLocalStorage } from '../utils/localStorage';
+import { getFromLocalStorage, setIntoLocalStorage } from '../utils/localStorage';
 
 function Header() {
-  const findName = async () => {
-    const userName = await getFromLocalStorage(user);
+  const [statusNavigate, setStatusNavigate] = useState(false);
+
+  const findName = () => {
+    const userName = getFromLocalStorage('user');
     return userName.name;
+  };
+
+  const logout = () => {
+    setIntoLocalStorage('user', '');
+
+    setStatusNavigate(true);
   };
 
   return (
@@ -30,10 +38,11 @@ function Header() {
           <button
             data-testid="customer_products__element-navbar-link-logout"
             type="button"
-            onClick={ <Navigate to="/" /> }
+            onClick={ logout }
           >
             Sair
           </button>
+          { statusNavigate ? <Navigate to="/" /> : '' }
         </div>
       </nav>
     </div>

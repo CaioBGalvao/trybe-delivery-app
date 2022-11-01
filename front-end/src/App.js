@@ -10,7 +10,7 @@ function App() {
       <Route exact path="/" element={ <Login /> } />
       <Route path="/login" element={ <Login /> } />
       <Route path="/register" element={ <Register /> } />
-      <Route path="customer/products" element={ <Products /> } />
+      <Route path="/customer/products" element={ <Products /> } />
     </Routes>
   );
 }
