@@ -16,6 +16,7 @@ app.use('/images', express.static('public'));
 // rotas aqui
 app.use('/login', router.loginRouter);
 app.use('/products', router.productRouter);
+app.use('/sellers', router.sellerRouter);
 
 // middleware de erro
 app.use(errorHandler);
