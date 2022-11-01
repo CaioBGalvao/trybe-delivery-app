@@ -10,8 +10,12 @@ app.use(cors());
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
+// middleware de UPLOAD
+app.use('/images', express.static('public'));
+
 // rotas aqui
 app.use('/login', router.loginRouter);
+app.use('/products', router.productRouter);
 
 // middleware de erro
 app.use(errorHandler);
