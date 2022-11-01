@@ -3,6 +3,11 @@ import { Navigate } from 'react-router-dom';
 import { getFromLocalStorage } from '../utils/localStorage';
 
 function Header() {
+  const findName = async () => {
+    const userName = await getFromLocalStorage(user);
+    return userName.name;
+  };
+
   return (
     <div>
       <nav>
@@ -20,7 +25,7 @@ function Header() {
           <h1
             data-testid="customer_products__element-navbar-user-full-name"
           >
-            { getFromLocalStorage(user.name) }
+            { findName() }
           </h1>
           <button
             data-testid="customer_products__element-navbar-link-logout"

@@ -4,7 +4,7 @@ import handleFetch from '../services/api';
 function RenderProducts() {
   // Configuracao inicial do state
 
-  const [producsArray, setProductsArray] = useState('');
+  const [producsArray, setProductsArray] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {
