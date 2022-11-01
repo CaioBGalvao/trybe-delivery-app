@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     name: DataTypes.STRING,
-    price: DataTypes.FLOAT(4, 2),
+    price: DataTypes.DECIMAL(4, 2),
     url_image: DataTypes.STRING,
   }, {
     timestamps: false,
