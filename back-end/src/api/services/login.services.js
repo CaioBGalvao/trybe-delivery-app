@@ -10,18 +10,23 @@ const login = async (userObject) => {
 
   const findedUser = await user.findOne({
     // logging: console.log,
-    attributes: ['email', 'password'],
+    attributes: ['name', 'email', 'password', 'role'],
     where: { email },
     raw: true,
   });
 
-  if (!findedUser) {
-    throw new Error('Incorrect email or password&404');
-  }
+  if (!findedUser) throw new Error('Incorrect email or password&404');
 
   crypto.passwordValidator({ userPassword: password, dbPassword: findedUser.password });
 
-  return jwt.createToken({ email });
+  const apiReturn = {
+    name: findedUser.name,
+    email: findedUser.email,
+    role: findedUser.role,
+    token: jwt.createToken({ email }),
+  };
+  
+  return apiReturn;
 };
 
 const create = async (newUserObject) => {

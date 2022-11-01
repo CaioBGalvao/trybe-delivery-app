@@ -4,7 +4,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const userObject = { email, password };
   const result = await loginService.login(userObject);
-  return res.status(200).json({ token: result });
+  return res.status(200).json({ ...result });
 };
 const create = async (req, res) => {
   const { name, email, password } = req.body;
