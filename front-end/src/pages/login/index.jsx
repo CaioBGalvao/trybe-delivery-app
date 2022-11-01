@@ -15,6 +15,7 @@ function Login() {
   const [validateEmail, setValidateEmail] = useState(false);
   const [validatePassword, setValidatePassword] = useState(false);
   const [validateApi, setValidateApi] = useState('ok');
+  const [role, setRole] = useState('');
 
   // Validação de email e senha
 
@@ -49,10 +50,26 @@ function Login() {
         setValidateApi(response.message);
       } else {
         window.localStorage.setItem('token', response.token);
+        window.localStorage.setItem('role', response.role);
+        setRole(response.role);
         setValidateApi('true');
       }
     } catch (e) {
       setValidateApi(e.message);
+    }
+  };
+
+  const switchRoute = () => {
+    if (role === 'seller') {
+      return <Navigate to="/sellers/orders" />;
+    }
+
+    if (role === 'customer') {
+      return <Navigate to="/customer/products" />;
+    }
+
+    if (role === 'administrator') {
+      return <Navigate to="/admin/manage" />;
     }
   };
 
@@ -103,7 +120,7 @@ function Login() {
       </a>
       { validateApi === 'ok' && validateApi !== 'true' ? ('')
         : (<p data-testid="common_login__element-invalid-email">{ validateApi }</p>) }
-      { validateApi === 'true' ? <Navigate to="/customer/products" /> : ''}
+      { validateApi === 'true' ? switchRoute() : ''}
     </>
   );
 }

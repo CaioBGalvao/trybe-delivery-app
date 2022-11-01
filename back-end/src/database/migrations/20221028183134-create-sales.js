@@ -32,7 +32,7 @@ module.exports = {
       },
 
       total_price: {
-        type: Sequelize.FLOAT(9, 2),
+        type: Sequelize.DECIMAL(9, 2),
       },
       delivery_address: {
         type: Sequelize.STRING
