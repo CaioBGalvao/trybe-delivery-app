@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { getFromLocalStorage } from '../utils/localStorage';
 
 function Header() {
   return (
@@ -19,7 +20,7 @@ function Header() {
           <h1
             data-testid="customer_products__element-navbar-user-full-name"
           >
-            Usuário
+            { getFromLocalStorage(user.name) }
           </h1>
           <button
             data-testid="customer_products__element-navbar-link-logout"

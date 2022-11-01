@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import handleFetch from '../../services/api';
+import { setIntoLocalStorage } from '../../utils/localStorage';
 import './index.css';
 
 function Login() {
@@ -44,11 +45,11 @@ function Login() {
 
     try {
       const response = await handleFetch('POST', '/login', inputsFormate);
-
+      const { name, role, token } = response;
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
-        window.localStorage.setItem('token', response.token);
+        setIntoLocalStorage('user', { name, email, role, token });
         setValidateApi('true');
       }
     } catch (e) {
