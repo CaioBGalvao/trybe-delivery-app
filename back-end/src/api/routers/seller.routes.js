@@ -6,4 +6,4 @@ const sellerRouter = Router();
 sellerRouter
   .get('/sellers', sellerController.findAll);
 
-module.exports = loginRouter;
+module.exports = sellerRouter;
