@@ -1,17 +1,14 @@
 import React from 'react';
 import Header from '../../components/header';
+import RenderProducts from '../../components/productCards';
 
-function Products({ userEmail }) {
+function Products() {
   return (
     <>
-      <Header email={ userEmail } />
-      <ProductsCards />
+      <Header />
+      <RenderProducts />
     </>
   );
 }
-
-Products.propTypes = {
-  userEmail: PropTypes.string.isRequired,
-};
 
 export default Products;
