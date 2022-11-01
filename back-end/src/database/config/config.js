@@ -24,14 +24,12 @@ const options = {
   logging: false,
 };
 
-module.exports = {
-  development: {
-    ...options,
-  },
-  test: {
-    ...options,
-  },
-  production: {
-    ...options,
-  },
+export const development = {
+  ...options,
+};
+export const test = {
+  ...options,
+};
+export const production = {
+  ...options,
 };
