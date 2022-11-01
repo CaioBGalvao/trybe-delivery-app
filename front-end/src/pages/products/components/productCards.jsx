@@ -5,6 +5,7 @@ function RenderProducts() {
   // Configuracao inicial do state
 
   const [producsArray, setProductsArray] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -40,24 +41,32 @@ function RenderProducts() {
             <button
               type="button"
               data-testid={ `customer_products__button-card-rm-item-${product.id}` }
+              onClick={ totalPrice <= 0 ? '' : () => {
+                setTotalPrice(totalPrice - Number(product.price));
+              } }
             >
               -
             </button>
             <input
               type="number"
               data-testid={ `customer_products__input-card-quantity-${product.id}` }
+              value={ totalPrice }
               defaultValue={ 0 }
               min={ 0 }
             />
             <button
               data-testid={ `customer_products__button-card-add-item-${product.id}` }
               type="button"
+              onClick={ () => { setTotalPrice(totalPrice + Number(product.price)); } }
             >
               +
             </button>
           </div>
         ),
       )}
+      <button type="button" data-testid="customer_products__checkout-bottom-value">
+        { `Ver Carrinho: R$${totalPrice}` }
+      </button>
     </div>
   );
 }

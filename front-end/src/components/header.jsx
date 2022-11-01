@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getFromLocalStorage, setIntoLocalStorage } from '../utils/localStorage';
+import {
+  getFromLocalStorage, clearLocalStorage } from '../utils/localStorage';
 
 function Header() {
   const [statusNavigate, setStatusNavigate] = useState(false);
@@ -11,7 +12,7 @@ function Header() {
   };
 
   const logout = () => {
-    setIntoLocalStorage('user', '');
+    clearLocalStorage();
 
     setStatusNavigate(true);
   };
@@ -20,16 +21,18 @@ function Header() {
     <div>
       <nav>
         <div>
-          <h1
+          <a
             data-testid="customer_products__element-navbar-link-products"
+            href="/customer/products"
           >
             Produtos
-          </h1>
-          <h1
+          </a>
+          <a
             data-testid="customer_products__element-navbar-link-orders"
+            href="/customer/orders"
           >
             Meus Pedidos
-          </h1>
+          </a>
           <h1
             data-testid="customer_products__element-navbar-user-full-name"
           >

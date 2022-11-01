@@ -16,7 +16,12 @@ const getFromLocalStorage = (key) => {
   return JSON.parse(responseStorage);
 };
 
+const clearLocalStorage = () => {
+  window.localStorage.clear();
+};
+
 module.exports = {
   setIntoLocalStorage,
   getFromLocalStorage,
+  clearLocalStorage,
 };
