@@ -30,7 +30,7 @@ module.exports = {
           id: 5,
           name: 'Skol 269ml',
           price: 2.19,
-          url_image: 'http://localhost:3001/images/brahma_600ml.jpg',
+          url_image: 'http://localhost:3001/images/skol_269ml.jpg',
         },
         {
           id: 6,

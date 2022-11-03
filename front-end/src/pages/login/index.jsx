@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import handleFetch from '../../services/api';
+import { setIntoLocalStorage } from '../../utils/localStorage';
 import './index.css';
 
 function Login() {
@@ -15,7 +16,7 @@ function Login() {
   const [validateEmail, setValidateEmail] = useState(false);
   const [validatePassword, setValidatePassword] = useState(false);
   const [validateApi, setValidateApi] = useState('ok');
-  const [role, setRole] = useState('');
+  const [roleStatus, setRoleStatus] = useState('');
 
   // Validação de email e senha
 
@@ -45,13 +46,12 @@ function Login() {
 
     try {
       const response = await handleFetch('POST', '/login', inputsFormate);
-
+      const { name, role, token } = response;
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
-        window.localStorage.setItem('token', response.token);
-        window.localStorage.setItem('role', response.role);
-        setRole(response.role);
+        setRoleStatus(role);
+        setIntoLocalStorage('user', { name, email, role, token });
         setValidateApi('true');
       }
     } catch (e) {
@@ -60,15 +60,15 @@ function Login() {
   };
 
   const switchRoute = () => {
-    if (role === 'seller') {
+    if (roleStatus === 'seller') {
       return <Navigate to="/sellers/orders" />;
     }
 
-    if (role === 'customer') {
+    if (roleStatus === 'customer') {
       return <Navigate to="/customer/products" />;
     }
 
-    if (role === 'administrator') {
+    if (roleStatus === 'administrator') {
       return <Navigate to="/admin/manage" />;
     }
   };
