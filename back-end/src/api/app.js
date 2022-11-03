@@ -16,11 +16,14 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/images', express.static('public'));
 
 // rotas aqui
+
+app.use(router);
 app.use('/login', router.loginRouter);
 app.use('/products', router.productRouter);
 // app.use('/sales', router.salesRouter);
 // app.use('/checkout', router.checkoutRouter);
 app.use('/sellers', router.sellerRouter);
+
 
 // middleware de erro
 app.use(errorHandler);

@@ -1,6 +1,7 @@
 const loginService = require('./login.services');
 const productServices = require('./product.services');
 const sellerServices = require('./seller.services');
+const customerServices = require('./customer.service');
 const checkoutServices = require('./checkout.services');
 
 module.exports = { 
@@ -8,4 +9,5 @@ module.exports = {
   productServices,
   checkoutServices,
   sellerServices,
+  customerServices,
 };
