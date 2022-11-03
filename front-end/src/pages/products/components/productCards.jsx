@@ -74,6 +74,7 @@ function RenderProducts() {
         total += Number(price);
       });
       setTotalPrice(total.toFixed(2));
+      setIntoLocalStorage('totalPrice', total.toFixed(2));
     }
   }, [quantity, producsArray]);
 
