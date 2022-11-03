@@ -9,7 +9,8 @@ const login = async (userObject) => {
   const { email, password } = validationResult;
 
   const findedUser = await user.findOne({
-    attributes: ['name', 'email', 'password', 'role'],
+    // logging: console.log,
+    attributes: ['id', 'name', 'email', 'password', 'role'],
     where: { email },
     raw: true,
   });
@@ -19,6 +20,7 @@ const login = async (userObject) => {
   crypto.passwordValidator({ userPassword: password, dbPassword: findedUser.password });
 
   const apiReturn = {
+    id: findedUser.id,
     name: findedUser.name,
     email: findedUser.email,
     role: findedUser.role,

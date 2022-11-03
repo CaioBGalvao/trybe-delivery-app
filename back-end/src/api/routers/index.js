@@ -11,4 +11,14 @@ router.use('/products', productRouter);
 router.use('/sellers', sellerRouter);
 router.use('/customer', customerRouter);
 
-module.exports = router;
+const checkoutRouter = require('./checkout.routes');
+const salesRouter = require('./sales.routes');
+
+module.exports = { 
+  loginRouter,
+  productRouter,
+  checkoutRouter,
+  salesRouter,
+  sellerRouter,
+  router,
+};

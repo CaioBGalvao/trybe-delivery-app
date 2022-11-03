@@ -3,4 +3,14 @@ const productController = require('./product.controller');
 const sellerController = require('./seller.controller');
 const customerController = require('./customer.controller');
 
-module.exports = { loginController, productController, sellerController, customerController };
+const checkoutController = require('./checkout.controller');
+const salesController = require('./sales.controller');
+
+module.exports = { 
+  loginController,
+  productController,
+  checkoutController,
+  salesController,
+  sellerController,
+   customerController
+};
