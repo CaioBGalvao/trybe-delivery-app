@@ -1,4 +1,4 @@
-const { user } = require('../../database/models');
+const { User } = require('../../database/models');
 const validateLogin = require('../Schemas/login/login.schema');
 const validateNewUser = require('../Schemas/login/create.schema');
 const { crypto, jwt } = require('../security');
@@ -8,8 +8,7 @@ const login = async (userObject) => {
 
   const { email, password } = validationResult;
 
-  const findedUser = await user.findOne({
-    // logging: console.log,
+  const findedUser = await User.findOne({
     attributes: ['name', 'email', 'password', 'role'],
     where: { email },
     raw: true,
@@ -36,7 +35,7 @@ const create = async (newUserObject) => {
 
   const encriptedPassword = crypto.encriptPassword(password);
 
-  const newUserDbResponse = await user.findOrCreate({
+  const newUserDbResponse = await User.findOrCreate({
     // logging: console.log,
     where: { email },
     defaults: {

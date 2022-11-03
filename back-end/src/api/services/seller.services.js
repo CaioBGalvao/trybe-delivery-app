@@ -1,13 +1,13 @@
-const { User } = require('../models');
+const { User } = require('../../database/models');
 
-const getAllSellerUsers = async () => {
-  const sellerUsers = await User.findAll({
-    where: { roles: seller },
+const findAll = async () => {
+  const sellers = await User.findAll({
+    where: { role: 'seller' },
   });
   
-  if(!sellerUsers) throw new Error('There are no registered sellers&404')
+  if (!sellers) throw new Error('There are no registered sellers&404');
 
-  return sellerUsers;
+  return sellers;
 };
 
-module.exports = { getAllSellerUsers };
+module.exports = { findAll };
