@@ -1,4 +1,5 @@
 const { sale, salesProduct } = require('../../database/models');
+const validateSales = require('../Schemas/checkout/checkout.schema');
 
 const newSales = (objSales) => {
   const verifiedSales = validateSales(objSales);
@@ -9,9 +10,15 @@ const newSales = (objSales) => {
     deliveryAddress: verifiedSales.deliveryAddress,
     deliveryNumber: verifiedSales.deliveryNumber,
     totalPrice: verifiedSales.totalPrice,
-    saleDate: new Date(),
+    status: 'Pendente',
   });
 
+  console.log('Resposta da API', createSalesResponse);
+
+  // if (createSalesResponse[1] === false) {
+  //   throw new Error('Erro ao criar nova venda&500');
+  // }
+  return createSalesResponse;
 };
 
 // "userId": "1",
@@ -29,5 +36,4 @@ const newSales = (objSales) => {
 //  "deliveryAddress": "Rua do Bobo",
 //  "deliveryNumber": "0",
 //  "totalPrice": '100.24',
-//  "saleDate": "22-07-2022"
 // }
