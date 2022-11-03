@@ -1,7 +1,7 @@
-const { User } = require('../../database/models');
+const { user } = require('../../database/models');
 
 const findAll = async () => {
-  const sellers = await User.findAll({
+  const sellers = await user.findAll({
     where: { role: 'seller' },
   });
   

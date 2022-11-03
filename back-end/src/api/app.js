@@ -14,9 +14,7 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/images', express.static('public'));
 
 // rotas aqui
-app.use('/login', router.loginRouter);
-app.use('/products', router.productRouter);
-app.use('/sellers', router.sellerRouter);
+app.use(router);
 
 // middleware de erro
 app.use(errorHandler);
