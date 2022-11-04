@@ -1,16 +1,17 @@
-const { checkoutService } = require('../services');
+const { checkoutServices } = require('../services');
+const securityServices = require('../security/services/security.services');
 
-const newSales = async (req, res) => {
-  const result = await checkoutService.newSales(req.body);
-  return res.status(201).json(result);
+const checkout = async (req, res) => {
+  const { email } = req.headers;
+  const { role } = await securityServices.roleVerify(email);
+  if (role !== 'customer') {
+    throw new Error('Only customers can access this endpoint&401');
+  }
+
+  const response = await checkoutServices.checkout(req.body);
+  res.status(201).json(response);
 };
 
-const vendingStatus = async (_req, _res) => true;
+const updateCheckoutById = async (_req, _res) => true;
 
-const arrivedStatus = async (_req, _res) => true;
-
-module.exports = {
-  newSales,
-  vendingStatus,
-  arrivedStatus,
-};
+module.exports = { checkout, updateCheckoutById };

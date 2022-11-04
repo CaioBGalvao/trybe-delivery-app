@@ -45,7 +45,7 @@ function Login() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login', inputsFormate);
+      const response = await handleFetch('POST', '/login', '', inputsFormate);
       const { name, role, token } = response;
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);

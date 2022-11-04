@@ -3,7 +3,7 @@ const errorHandler = (err, _req, res, _next) => {
     const [message, statusCode] = err.message.split('&');
     return res.status(Number(statusCode)).json({ message });
   }
-  console.error(err);
+  console.error('Erro desconhecido: ', err);
   return res.status(500).json({ message: 'Internal server error' });
 };
 
