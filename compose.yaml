@@ -1,7 +1,7 @@
 services:
   frontend:
     image: node:16.18
-    platform: linux/x86_64 #  para quem tem MAC
+    platform: linux/x86_64
     container_name: delivery_app_frontend
     build: ./front-end
     ports:
@@ -20,7 +20,7 @@ services:
 
   backend:
     image: node:16.18
-    platform: linux/x86_64 # para o MAC
+    platform: linux/x86_64
     container_name: delivery_app_backend
     build: ./back-end
     working_dir: /app/back-end
@@ -44,8 +44,8 @@ services:
       - virtual_lan_Back-to-DB
 
   db:
-    image: mysql:5.7
-    platform: linux/x86_64 # para o MAC
+    image: mysql:8.0.31
+    platform: linux/x86_64
     container_name: delivery_app_db
     restart: always
     ports:

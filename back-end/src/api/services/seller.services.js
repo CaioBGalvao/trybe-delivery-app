@@ -8,7 +8,7 @@ const getAllSellerUsers = async () => {
   
   if (!sellerUsers) throw new Error('There are no registered sellers&404');
 
-  return sellers;
+  return sellerUsers;
 };
 
-module.exports = { findAll };
+module.exports = { getAllSellerUsers };

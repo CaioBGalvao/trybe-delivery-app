@@ -1,11 +1,11 @@
-// const { Router } = require('express');
-// const { checkoutController } = require('../controllers');
+const { Router } = require('express');
+const { checkoutController } = require('../controllers');
+const { validateToken } = require('../security/jwt');
 
-// const checkoutRouter = Router();
+const checkoutRouter = Router();
 
-// checkoutRouter
-//   .post('/newSales', checkoutController.newSales)
-//   .update('/vendingStatus', checkoutController.vendingStatus)
-//   .update('/arrivedStatus', checkoutController.arrivedStatus);
+checkoutRouter
+  .post('/', validateToken, checkoutController.checkout)
+  .patch('/update/:id', validateToken, checkoutController.updateCheckoutById);
 
-// module.exports = checkoutRouter;
+module.exports = checkoutRouter;

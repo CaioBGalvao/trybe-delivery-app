@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     saleDate: DataTypes.DATE,
     status: DataTypes.STRING,
   }, {
-    createdAt: 'sale_date',
+    createdAt: 'saleDate',
     updatedAt: false,
     tableName: 'sales',
     underscored: true,

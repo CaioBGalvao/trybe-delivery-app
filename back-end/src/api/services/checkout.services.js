@@ -1,39 +1,32 @@
 const { sale, salesProduct } = require('../../database/models');
-const validateSales = require('../Schemas/checkout/checkout.schema');
+const validateCheckout = require('../schemas/checkout/checkout.schema');
 
-const newSales = (objSales) => {
-  const verifiedSales = validateSales(objSales);
-
-  const createSalesResponse = sale.create({
-    userId: verifiedSales.userId,
-    sellerId: verifiedSales.sellerId,
-    deliveryAddress: verifiedSales.deliveryAddress,
-    deliveryNumber: verifiedSales.deliveryNumber,
-    totalPrice: verifiedSales.totalPrice,
-    status: 'Pendente',
-  });
-
-  console.log('Resposta da API', createSalesResponse);
-
-  // if (createSalesResponse[1] === false) {
-  //   throw new Error('Erro ao criar nova venda&500');
-  // }
-  return createSalesResponse;
+const dateFormater = (saled) => {
+  const date = saled.saleDate.toISOString().split('T')[0];
+  return date.split('-').reverse().join('/');
 };
 
-// "userId": "1",
-//  "sellerId": "1",
-//  "salesProducts": [
-//    {
-//      "productId": "1",
-//      "quantity": "1"
-//    },
-//    {
-//      "productId": "2",
-//      "quantity": "2"
-//    }
-//  ],
-//  "deliveryAddress": "Rua do Bobo",
-//  "deliveryNumber": "0",
-//  "totalPrice": '100.24',
-// }
+const checkout = async (obj) => {
+  const validatedObj = validateCheckout(obj);
+
+  const { salesProducts, ...checkoutInfo } = validatedObj;
+
+  const saled = await sale.create({ ...checkoutInfo, status: 'Pendente' });
+
+  const saledProducts = await Promise
+    .all(salesProducts
+      .map((product) => salesProduct
+        .create({ saleId: saled.id.toString(), ...product })));
+
+  const response = {
+    saleId: saled.id.toString(),
+    saleDate: dateFormater(saled),
+    totalPrice: saled.totalPrice,
+    status: saled.status.toString(),
+    saledProducts,
+  };
+
+  return response;
+};
+
+module.exports = { checkout };
