@@ -1,6 +1,6 @@
 const { user } = require('../../database/models');
-const validateLogin = require('../Schemas/login/login.schema');
-const validateNewUser = require('../Schemas/login/create.schema');
+const validateLogin = require('../schemas/login/login.schema');
+const validateNewUser = require('../schemas/login/create.schema');
 const { crypto, jwt } = require('../security');
 
 const login = async (userObject) => {
@@ -20,10 +20,7 @@ const login = async (userObject) => {
   crypto.passwordValidator({ userPassword: password, dbPassword: findedUser.password });
 
   const apiReturn = {
-    id: findedUser.id,
-    name: findedUser.name,
-    email: findedUser.email,
-    role: findedUser.role,
+    ...findedUser,
     token: jwt.createToken({ email }),
   };
   
