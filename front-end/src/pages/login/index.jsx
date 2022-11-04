@@ -45,12 +45,14 @@ function Login() {
 
     try {
       const response = await handleFetch('POST', '/login', inputsFormate);
+      console.log(response);
 
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
         window.localStorage.setItem('token', response.token);
         window.localStorage.setItem('role', response.role);
+        window.localStorage.setItem('id', response.id);
         setRole(response.role);
         setValidateApi('true');
       }

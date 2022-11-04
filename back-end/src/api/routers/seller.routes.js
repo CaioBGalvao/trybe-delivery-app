@@ -4,6 +4,6 @@ const { sellerController } = require('../controllers');
 const sellerRouter = Router();
 
 sellerRouter
-  .get('/sellers', sellerController.findAll);
+  .get('/sellers', sellerController.getAllSellerUsers);
 
 module.exports = sellerRouter;
