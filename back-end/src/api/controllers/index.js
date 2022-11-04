@@ -12,5 +12,5 @@ module.exports = {
   checkoutController,
   salesController,
   sellerController,
-   customerController
+   customerController,
 };
