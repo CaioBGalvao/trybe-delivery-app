@@ -18,7 +18,7 @@ const validateToken = (req, _res, next) => {
 
     try {
       const email = jwt.verify(authorization, jwtSecret);
-        req.headers.email = email;
+        req.body.email = email;
     } catch (err) {
       throw new Error(`${err.message}&401`);
     }

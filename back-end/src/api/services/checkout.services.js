@@ -11,22 +11,31 @@ const checkout = async (obj) => {
 
   const { salesProducts, ...checkoutInfo } = validatedObj;
 
-  const saled = await sale.create({ ...checkoutInfo, status: 'Pendente' });
+  const sold = await sale.create({ ...checkoutInfo, status: 'Pendente' });
 
   const saledProducts = await Promise
     .all(salesProducts
       .map((product) => salesProduct
-        .create({ saleId: saled.id.toString(), ...product })));
+        .create({ saleId: sold.id.toString(), ...product })));
 
   const response = {
-    saleId: saled.id.toString(),
-    saleDate: dateFormater(saled),
-    totalPrice: saled.totalPrice,
-    status: saled.status.toString(),
+    saleId: sold.id.toString(),
+    saleDate: dateFormater(sold),
+    totalPrice: sold.totalPrice,
+    status: sold.status.toString(),
     saledProducts,
   };
 
   return response;
 };
 
-module.exports = { checkout };
+const sellerCheckout = async (saleId, status) => {
+  const updated = await sale.update({ status }, { where: { id: saleId } });
+  if (updated[0] === 0) {
+    throw new Error(`Status is already ${status}&400`);
+  }
+  const response = `status was updated to ${status}`; 
+  return response;
+};
+
+module.exports = { checkout, sellerCheckout };
