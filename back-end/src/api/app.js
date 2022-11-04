@@ -24,7 +24,6 @@ app.use('/products', router.productRouter);
 // app.use('/checkout', router.checkoutRouter);
 app.use('/sellers', router.sellerRouter);
 
-
 // middleware de erro
 app.use(errorHandler);
 
