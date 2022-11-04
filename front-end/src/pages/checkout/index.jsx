@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import Header from '../../components/header';
 import { getFromLocalStorage, setIntoLocalStorage } from '../../utils/localStorage';
 import handleFetch from '../../services/api';
@@ -9,11 +10,14 @@ export default function Checkout() {
   const [sellers, setSellers] = useState([]);
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState('');
+  const [user, setUser] = useState([]);
   const [removeStatus, setRemoveStatus] = useState(0);
 
   const [selectSeller, setSelectSeller] = useState('');
   const [addres, setAddress] = useState('');
   const [number, setNumber] = useState('');
+
+  const [buttonStatus, setButtonStatus] = useState('false');
 
   useEffect(() => {
     const getSellers = async () => {
@@ -21,6 +25,9 @@ export default function Checkout() {
       setSellers(response);
     };
     getSellers();
+
+    const userStorage = getFromLocalStorage('user');
+    setUser(userStorage);
   }, []);
 
   useEffect(() => {
@@ -46,7 +53,28 @@ export default function Checkout() {
   };
 
   const thisCheckout = async () => {
-    console.log('aaa');
+    const formateProduct = products.map((product) => ({
+      productId: String(product.id),
+      quantity: String(product.qty),
+    }));
+
+    const formate = {
+      userId: String(user.id),
+      sellerId: selectSeller,
+      salesProducts: formateProduct,
+      deliveryAddress: addres,
+      deliveryNumber: number,
+      totalPrice,
+    };
+    console.log(formate, 'formate');
+
+    try {
+      const response = await handleFetch('POST', '/checkout', formate);
+      console.log(response);
+      setButtonStatus(response.saleId);
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   return (
@@ -140,6 +168,8 @@ export default function Checkout() {
       >
         Finalizar pedido
       </button>
+      { buttonStatus !== 'false'
+        ? <Navigate to={ `/customer/orders/${buttonStatus}` } /> : '' }
     </>
   );
 }

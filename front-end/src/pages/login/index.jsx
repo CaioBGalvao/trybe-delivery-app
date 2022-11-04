@@ -45,13 +45,13 @@ function Login() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login', '', inputsFormate);
-      const { name, role, token } = response;
+      const response = await handleFetch('POST', '/login', inputsFormate);
+      const { name, role, token, id } = response;
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
         setRoleStatus(role);
-        setIntoLocalStorage('user', { name, email, role, token });
+        setIntoLocalStorage('user', { name, email, role, token, id });
         setValidateApi('true');
       }
     } catch (e) {

@@ -15,7 +15,6 @@ function RenderProducts() {
     const getProducts = async () => {
       const response = await handleFetch('GET', '/products');
 
-      console.log(response, 'response');
       setProductsArray(response);
 
       const formateQuantity = response.map(() => 0);
