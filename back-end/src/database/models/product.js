@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('product', {
+  const Product = sequelize.define('Product', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     tableName: 'products',
   });
+
+  Product.associate = (models) => {
+    Product.belongsToMany(models.Sale, {
+      through: 'productsSales',
+    });
+  };
 
   return Product;
 };

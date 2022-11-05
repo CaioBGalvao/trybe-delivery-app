@@ -1,8 +1,7 @@
-const { user } = require('../../../database/models');
+const { User } = require('../../../database/models');
 
 const roleVerify = async ({ email }) => {
-  const findedRole = await user.findOne({
-    // logging: console.log,
+  const findedRole = await User.findOne({
     attributes: ['role', 'id'],
     where: { email },
     raw: true,

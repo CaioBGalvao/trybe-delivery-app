@@ -1,4 +1,4 @@
-const { sale, salesProduct } = require('../../database/models');
+const { Sale, SaleProduct } = require('../../database/models');
 const validateCheckout = require('../schemas/checkout/checkout.schema');
 
 const dateFormater = (saled) => {
@@ -11,11 +11,11 @@ const checkout = async (obj) => {
 
   const { salesProducts, ...checkoutInfo } = validatedObj;
 
-  const saled = await sale.create({ ...checkoutInfo, status: 'Pendente' });
+  const saled = await Sale.create({ ...checkoutInfo, status: 'Pendente' });
 
   const saledProducts = await Promise
     .all(salesProducts
-      .map((product) => salesProduct
+      .map((product) => SaleProduct
         .create({ saleId: saled.id.toString(), ...product })));
 
   const response = {
