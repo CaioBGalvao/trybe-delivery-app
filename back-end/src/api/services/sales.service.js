@@ -20,7 +20,7 @@ const findOne = async (id) => Sale.findByPk(id, {
       as: 'seller',
       attributes: ['name'],
     },
-  ], 
+  ],
 });
 
 module.exports = { findAll, findOne };

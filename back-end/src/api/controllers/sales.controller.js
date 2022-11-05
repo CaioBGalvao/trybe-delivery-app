@@ -11,6 +11,9 @@ const findAll = async (req, res) => {
 const findOne = async (req, res) => {
   const { id } = req.params;
   const sale = await salesService.findOne(id);
+  
+  if (!sale) res.status(404).json({ message: 'Product not found' });
+  
   return res.status(200).json(sale);
 };
 
