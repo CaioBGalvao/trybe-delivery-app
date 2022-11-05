@@ -7,19 +7,20 @@ const typeUser = {
 
 const findAll = async ({ role, id }) => Sale.findAll({ where: { [typeUser[role]]: id } });
 
-const findOne = async (id) => {
-  const findSale = Sale.findByPk(id, { 
-    include: [{
+const findOne = async (id) => Sale.findByPk(id, { 
+  attributes: ['id', 'totalPrice', 'saleDate', 'status'],
+  include: [
+    {
       model: Product,
       as: 'products',
+      attributes: ['name', 'price', 'url_image'],
       through: { attributes: ['quantity'] },
     }, {
       model: User,
       as: 'seller',
       attributes: ['name'],
-    }],
-  });
+    },
+  ], 
+});
 
-  return findSale;
-};
 module.exports = { findAll, findOne };
