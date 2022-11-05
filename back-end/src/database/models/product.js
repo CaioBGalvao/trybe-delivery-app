@@ -13,12 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     tableName: 'products',
   });
-
-  Product.associate = (models) => {
-    Product.belongsToMany(models.Sale, {
-      through: 'productsSales',
-    });
-  };
-
+  
   return Product;
 };

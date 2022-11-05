@@ -1,4 +1,4 @@
-const { Sale, SaleProduct } = require('../../database/models');
+const { Sale, saleProduct } = require('../../database/models');
 const validateCheckout = require('../schemas/checkout/checkout.schema');
 
 const dateFormater = (saled) => {
@@ -15,7 +15,7 @@ const checkout = async (obj) => {
 
   const saledProducts = await Promise
     .all(salesProducts
-      .map((product) => SaleProduct
+      .map((product) => saleProduct
         .create({ saleId: saled.id.toString(), ...product })));
 
   const response = {

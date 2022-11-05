@@ -10,9 +10,7 @@ const findAll = async (req, res) => {
 
 const findOne = async (req, res) => {
   const { id } = req.params;
-  const { email } = req.headers;
-  const user = await securityServices.roleVerify(email);
-  const sale = await salesService.findOne(user, id);
+  const sale = await salesService.findOne(id);
   return res.status(200).json(sale);
 };
 

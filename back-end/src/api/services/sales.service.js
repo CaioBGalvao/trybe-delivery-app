@@ -1,4 +1,4 @@
-const { Sale, SaleProduct } = require('../../database/models');
+const { Sale, Product, User } = require('../../database/models');
 
 const typeUser = {
   customer: 'userId', 
@@ -7,12 +7,17 @@ const typeUser = {
 
 const findAll = async ({ role, id }) => Sale.findAll({ where: { [typeUser[role]]: id } });
 
-const findOne = async ({ id }, saleId) => {
-  const findSale = SaleProduct.findAll({ 
-    where: { saleId },
-    include: {
-      model: Sale,
-    },
+const findOne = async (id) => {
+  const findSale = Sale.findByPk(id, { 
+    include: [{
+      model: Product,
+      as: 'products',
+      through: { attributes: ['quantity'] },
+    }, {
+      model: User,
+      as: 'seller',
+      attributes: ['name'],
+    }],
   });
 
   return findSale;
