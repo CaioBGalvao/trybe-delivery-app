@@ -1,8 +1,8 @@
 const { sellerServices } = require('../services');
 
-const getAllSellerUsers = async (_req, res) => {
-  const sellerUsers = await sellerServices.getAllSellerUsers();
+const findAll = async (_req, res) => {
+  const sellerUsers = await sellerServices.findAll();
   return res.status(200).json(sellerUsers);
 };
 
-module.exports = { getAllSellerUsers };
+module.exports = { findAll };

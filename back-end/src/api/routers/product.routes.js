@@ -4,6 +4,6 @@ const { validateToken } = require('../security/jwt');
 
 const productRouter = Router();
 
-productRouter.get('/', validateToken, productController.getAll);
+productRouter.get('/', validateToken, productController.findAll);
 
 module.exports = productRouter;
