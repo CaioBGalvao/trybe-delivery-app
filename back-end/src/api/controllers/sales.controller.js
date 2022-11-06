@@ -1,20 +1,20 @@
 const { salesService } = require('../services');
 const securityServices = require('../security/services/security.services');
-const { ConsoleMessage } = require('puppeteer');
 
 const findAll = async (req, res) => {
-  // const { email } = req.headers;
-  const { id } = req.params;
-  // const result = await securityServices.roleVerify(email);
-  const allSales = await salesService.findAll(id);
-  return res.status(200).json(allSales);
+  const { email } = req.headers;
+  const user = await securityServices.roleVerify(email);
+  const sales = await salesService.findAll(user);
+  return res.status(200).json(sales);
 };
 
 const findOne = async (req, res) => {
   const { id } = req.params;
-  const allSales = await salesService.findOne(id);
-  return res.status(200).json(allSales);
+  const sale = await salesService.findOne(id);
+  
+  if (!sale) res.status(404).json({ message: 'Sale not found' });
+  
+  return res.status(200).json(sale);
 };
-
 
 module.exports = { findAll, findOne };
