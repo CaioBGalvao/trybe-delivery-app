@@ -44,8 +44,11 @@ function RenderProducts() {
     }
 
     if (type === 'input') {
-      const quantityResult = setQuantity(quantity[index] + Number(value));
-
+      const number = Number(value);
+      const quantityResult = quantity.map((q, i) => {
+        if (i === index) q = number;
+        return q;
+      });
       return setQuantity(quantityResult);
     }
   };
@@ -78,6 +81,8 @@ function RenderProducts() {
     }
   }, [quantity, producsArray]);
 
+  // product.price.replace('.', ',') linha 107
+
   return (
     <div>
       {producsArray.map(
@@ -99,7 +104,7 @@ function RenderProducts() {
             <p
               data-testid={ `customer_products__element-card-price-${product.id}` }
             >
-              { product.price.replace('.', ',') }
+              { String(product.price).replace('.', ',') }
             </p>
             <button
               type="button"
@@ -110,10 +115,9 @@ function RenderProducts() {
             </button>
             <input
               type="number"
+              min="0"
               data-testid={ `customer_products__input-card-quantity-${product.id}` }
-              onChange={
-                ({ target: { value } }) => defineQuantity('input', index, value)
-              }
+              onChange={ ({ target }) => defineQuantity('input', index, target.value) }
               value={ quantity[index] }
             />
             <button

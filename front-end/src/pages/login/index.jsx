@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import handleFetch from '../../services/api';
-import { setIntoLocalStorage } from '../../utils/localStorage';
+import { setIntoLocalStorage, getFromLocalStorage } from '../../utils/localStorage';
 import './index.css';
 
 function Login() {
+  const history = useNavigate();
   // capturando a rota atual
 
   const location = useLocation();
@@ -46,12 +47,12 @@ function Login() {
 
     try {
       const response = await handleFetch('POST', '/login', inputsFormate);
-      const { name, role, token } = response;
+      const { name, role, token, id } = response;
       if (Object.keys(response)[0] === 'message') {
         setValidateApi(response.message);
       } else {
         setRoleStatus(role);
-        setIntoLocalStorage('user', { name, email, role, token });
+        setIntoLocalStorage('user', { name, email, role, token, id });
         setValidateApi('true');
       }
     } catch (e) {
@@ -61,7 +62,7 @@ function Login() {
 
   const switchRoute = () => {
     if (roleStatus === 'seller') {
-      return <Navigate to="/sellers/orders" />;
+      return <Navigate to="/seller/orders" />;
     }
 
     if (roleStatus === 'customer') {
@@ -72,6 +73,20 @@ function Login() {
       return <Navigate to="/admin/manage" />;
     }
   };
+
+  useEffect(() => {
+    const { role } = getFromLocalStorage('user');
+
+    if (role === 'customer') {
+      return history('/customer/products');
+    }
+    if (role === 'seller') {
+      return history('/seller/orders');
+    }
+    if (role === 'administrator') {
+      return history('/admin/manage');
+    }
+  }, []);
 
   return (
     <>
