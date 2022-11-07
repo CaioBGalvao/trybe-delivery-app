@@ -26,7 +26,6 @@ const checkout = async (obj) => {
     saledProducts,
   };
 
-
   return response;
 };
 

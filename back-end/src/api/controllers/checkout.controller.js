@@ -9,7 +9,6 @@ const checkout = async (req, res) => {
   }
 
   const response = await checkoutServices.checkout(req.body);
-  console.log(response);
   res.status(201).json(response);
 };
 
