@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);
@@ -13,7 +13,7 @@ function CustomerOrderTable({ order }) {
     };
 
     dateFormater();
-  }, []);
+  }, [orderDate]);
 
   const dataTest = 'customer_order_details__element-order';
   return (
