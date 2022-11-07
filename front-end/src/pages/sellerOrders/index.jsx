@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import handleFetch from '../../services/api';
-import Header from '../../components/header';
-import './index.css';
 
-function CustomerOrders() {
+function SellerOrders() {
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
@@ -14,10 +12,9 @@ function CustomerOrders() {
     };
     getSalesById();
   }, []);
-
+  console.log(sales);
   return (
     <section>
-      <Header />
 
       <div className="sale-section">
         {
@@ -26,30 +23,33 @@ function CustomerOrders() {
             status,
             totalPrice,
             saleDate,
+            deliveryAddress,
+            deliveryNumber,
           }) => (
-            <Link to={ `/customer/orders/${id}` } key={ id }>
+            <Link to={ `/seller/orders/${id}` } key={ id }>
               <div className="sale-card">
                 <div
-                  data-testid={ `customer_orders__element-order-id-${id}` }
+                  data-testid={ `seller_orders__element-order-id-${id}` }
                   className="sale-title"
                 >
                   <p>Pedido</p>
                   <p>{ id }</p>
                 </div>
                 <div
-                  data-testid={ `customers_orders__element-delivery-status-${id}` }
+                  data-testid={ `seller_orders__element-delivery-status-${id}` }
                   className="sale-status"
                 >
                   <h3>{ status }</h3>
                 </div>
                 <div>
-                  <div data-testid={ `customer_orders__element-order-date-${id}` }>
+                  <div data-testid={ `seller_orders__element-order-date-${id}` }>
                     <h4>{ saleDate }</h4>
                   </div>
-                  <div data-testid={ `customer_orders__element-card-price-${id}` }>
+                  <div data-testid={ `seller_orders__element-card-price-${id}` }>
                     <h4>{ totalPrice }</h4>
                   </div>
                 </div>
+                <p>{`${deliveryAddress}, ${deliveryNumber}`}</p>
               </div>
             </Link>
 
@@ -60,4 +60,4 @@ function CustomerOrders() {
   );
 }
 
-export default CustomerOrders;
+export default SellerOrders;

@@ -7,7 +7,7 @@ const typeUser = {
 
 const findAll = async ({ role, id }) => Sale.findAll({
   where: { [typeUser[role]]: id },
-  attributes: ['id', 'totalPrice', 'saleDate', 'status'],
+  attributes: ['id', 'totalPrice', 'saleDate', 'status', 'deliveryAddress', 'deliveryNumber'],
 });
 
 const findOne = async (id) => Sale.findByPk(id, { 

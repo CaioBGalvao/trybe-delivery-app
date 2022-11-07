@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
+import Header from '../../components/header';
 import CustomerOrderTable from './components/customerOrderTable';
 import './index.css';
 
@@ -38,6 +39,7 @@ function CustomerOrderDetails() {
 
   return (
     <section>
+      <Header />
       {
         (!order)
           ? <div>Loading</div>
