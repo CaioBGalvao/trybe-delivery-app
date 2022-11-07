@@ -7,24 +7,7 @@ import './index.css';
 
 function CustomerOrderDetails() {
   const [order, setOrder] = useState();
-  // const [products, setProducts] = useState([]);
-  // const [totalPrice, setTotalPrice] = useState('');
 
-  // const newSaleDetail = (sale) => {
-  //   setSell(sale);
-  //   setProducts(sale.products);
-  // };
-
-  // const getTotal = (prod) => {
-  //   const prices = [];
-  //   prod.map((product) => {
-  //     const formatValue = product.subTotal.replace(',', '.');
-  //     prices.push(formatValue);
-  //     return formatValue;
-  //   });
-  //   const total = prices.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
-  //   setTotalPrice(total);
-  // };
   const { id } = useParams();
 
   useEffect(() => {
