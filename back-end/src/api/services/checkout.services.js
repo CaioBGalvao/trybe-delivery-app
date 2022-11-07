@@ -1,4 +1,4 @@
-const { sale, salesProduct } = require('../../database/models');
+const { Sale, saleProduct } = require('../../database/models');
 const validateCheckout = require('../schemas/checkout/checkout.schema');
 
 const dateFormater = (saled) => {

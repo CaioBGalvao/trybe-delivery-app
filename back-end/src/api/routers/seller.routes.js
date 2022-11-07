@@ -5,6 +5,6 @@ const { validateToken } = require('../security/jwt');
 const sellerRouter = Router();
 
 sellerRouter
-  .get('/', validateToken, sellerController.getAllSellerUsers);
+  .get('/', validateToken, sellerController.findAll);
 
 module.exports = sellerRouter;
