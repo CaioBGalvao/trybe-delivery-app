@@ -2,28 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
 import CustomerOrderTable from './components/customerOrderTable';
+import Header from '../../components/header';
 import './index.css';
 
 function CustomerOrderDetails() {
   const [order, setOrder] = useState();
-  // const [products, setProducts] = useState([]);
-  // const [totalPrice, setTotalPrice] = useState('');
 
-  // const newSaleDetail = (sale) => {
-  //   setSell(sale);
-  //   setProducts(sale.products);
-  // };
-
-  // const getTotal = (prod) => {
-  //   const prices = [];
-  //   prod.map((product) => {
-  //     const formatValue = product.subTotal.replace(',', '.');
-  //     prices.push(formatValue);
-  //     return formatValue;
-  //   });
-  //   const total = prices.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
-  //   setTotalPrice(total);
-  // };
   const { id } = useParams();
 
   useEffect(() => {
@@ -38,6 +22,7 @@ function CustomerOrderDetails() {
 
   return (
     <section>
+      <Header />
       {
         (!order)
           ? <div>Loading</div>
