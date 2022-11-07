@@ -13,27 +13,31 @@ const checkout = async (req, res) => {
 };
 
 const sellerStatus = async (req, res, sellerId) => {
-  const { id } = req.params;
-  const saleId = id;
+  const { id: saleId } = req.params;
   const { status } = req.body;
-  await securityServices.saleOwnerVerify({ sellerId, saleId });
+  await securityServices.saleOwnerVerify({ role: 'seller', id: sellerId, saleId });
   const response = await checkoutServices.sellerCheckout(saleId, status);
+  res.status(200).json({ message: response });
+};
+
+const customerStatus = async (req, res, userId) => {
+  const { id: saleId } = req.params;
+  const { status } = req.body;
+  await securityServices.saleOwnerVerify({ role: 'customer', id: userId, saleId });
+  const response = await checkoutServices.customerCheckout(saleId, status);
   res.status(200).json({ message: response });
 };
 
 const decisionMaker = async (req, res) => {
   const { email } = req.body;
-  const { role, id } = await securityServices.roleVerify(email);
-  const userId = id;
+  const { role, id: userId } = await securityServices.roleVerify(email);
   if (role === 'seller') {
     await sellerStatus(req, res, userId);
   }
   if (role === 'customer') {
-    return true;
+    await customerStatus(req, res, userId);
   }
   throw new Error('Your role does not allow you to access this endpoint&401');
 };
 
-const constumerCheckout = async (_req, _res) => true;
-
-module.exports = { checkout, decisionMaker, constumerCheckout };
+module.exports = { checkout, decisionMaker };

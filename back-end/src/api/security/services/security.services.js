@@ -1,7 +1,12 @@
-const { user, sale } = require('../../../database/models');
+const { User, Sale } = require('../../../database/models');
+
+const typeColumn = {
+  customer: 'userId',
+  seller: 'sellerId',
+};
 
 const roleVerify = async ({ email }) => {
-  const foundRole = await user.findOne({
+  const foundRole = await User.findOne({
     // logging: console.log,
     attributes: ['role', 'id'],
     where: { email },
@@ -10,11 +15,11 @@ const roleVerify = async ({ email }) => {
   return foundRole;
 };
 
-const saleOwnerVerify = async ({ sellerId, saleId }) => {
-  const foundSale = await sale.findAll({
+const saleOwnerVerify = async ({ role, id, saleId }) => {
+  const foundSale = await Sale.findAll({
     // logging: console.log,
     attributes: ['id'],
-    where: { sellerId },
+    where: { [typeColumn[role]]: id },
     raw: true,
   });
   const saleExist = foundSale.some((sales) => sales.id === Number(saleId));
