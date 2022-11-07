@@ -6,6 +6,6 @@ const checkoutRouter = Router();
 
 checkoutRouter
   .post('/', validateToken, checkoutController.checkout)
-  .patch('/sales/status/:id', validateToken, checkoutController.decisionMaker);
+  .patch('/sales/status/:id', validateToken, checkoutController.patch);
 
 module.exports = checkoutRouter;

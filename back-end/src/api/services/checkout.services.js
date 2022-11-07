@@ -1,10 +1,10 @@
 const { Sale, saleProduct } = require('../../database/models');
 const validateCheckout = require('../schemas/checkout/checkout.schema');
 
-const statusSeller = [
-  'Preparando',
-  'Em Trânsito',
-];
+const typeUser = {
+  customer: { id: 'userId', status: ['Entregue'] },
+  seller: { id: 'sellerId', status: ['Entregue', 'Preparando', 'Em Trânsito'] },
+};
 
 const dateFormater = (saled) => {
   const date = saled.saleDate.toISOString().split('T')[0];
@@ -34,28 +34,18 @@ const checkout = async (obj) => {
   return response;
 };
 
-const sellerCheckout = async (saleId, status) => {
-  if (!statusSeller.some((authStatus) => authStatus === status)) {
+const patch = async ({ role, id, status, saleId }) => {
+  const sale = await Sale.findOne({ where: { [typeUser[role].id]: id, id: saleId } });
+
+  if (!sale) {
+    throw new Error('You are trying to change a sale that does not exist or is not yours&401');
+  }
+
+  if (!typeUser[role].status.some((statusAuth) => statusAuth !== sale.status)) {
     throw new Error('Invalid status&400');
   }
-  const updated = await Sale.update({ status }, { where: { id: saleId } });
-  if (updated[0] === 0) {
-    throw new Error(`Status is already ${status}&400`);
-  }
-  const response = `status was updated to ${status}`;
-  return response;
+
+  return Sale.update({ status }, { where: { [typeUser[role].id]: id, id: saleId } });
 };
 
-const customerCheckout = async (saleId, status) => {
-  if (status !== 'Entregue') {
-    throw new Error('Invalid status&400');
-  }
-  const updated = await Sale.update({ status }, { where: { id: saleId } });
-  if (updated[0] === 0) {
-    throw new Error(`Status is already ${status}&400`);
-  }
-  const response = `status was updated to ${status}`;
-  return response;
-};
-
-module.exports = { checkout, sellerCheckout, customerCheckout };
+module.exports = { checkout, patch };
