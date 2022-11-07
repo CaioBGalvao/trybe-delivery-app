@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header';
 import { getFromLocalStorage, setIntoLocalStorage } from '../../utils/localStorage';
 import handleFetch from '../../services/api';
@@ -13,11 +13,12 @@ export default function Checkout() {
   const [user, setUser] = useState([]);
   const [removeStatus, setRemoveStatus] = useState(0);
 
-  const [selectSeller, setSelectSeller] = useState('');
+  const [selectSeller, setSelectSeller] = useState({ seller: '' });
   const [addres, setAddress] = useState('');
   const [number, setNumber] = useState('');
 
-  const [buttonStatus, setButtonStatus] = useState('false');
+  // const [buttonStatus, setButtonStatus] = useState('false');
+  const history = useNavigate();
 
   useEffect(() => {
     const getSellers = async () => {
@@ -52,6 +53,13 @@ export default function Checkout() {
     setRemoveStatus(removeStatus + 1);
   };
 
+  const handleSelect = ({ target: { value, name } }) => {
+    setSelectSeller((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
   const thisCheckout = async () => {
     const formateProduct = products.map((product) => ({
       productId: String(product.id),
@@ -60,18 +68,16 @@ export default function Checkout() {
 
     const formate = {
       userId: String(user.id),
-      sellerId: selectSeller,
+      sellerId: selectSeller.seller,
       salesProducts: formateProduct,
-      deliveryAddress: addres,
-      deliveryNumber: number,
-      totalPrice,
+      deliveryAddress: String(addres),
+      deliveryNumber: String(number),
+      totalPrice: String(totalPrice),
     };
-    console.log(formate, 'formate');
 
     try {
       const response = await handleFetch('POST', '/checkout', formate);
-      console.log(response);
-      setButtonStatus(response.saleId);
+      history(`/customer/orders/${Number(response.saleId)}`);
     } catch (e) {
       console.log(e.message);
     }
@@ -104,7 +110,7 @@ export default function Checkout() {
                 <td data-testid={ `${dataTest}name-${index}` }>{ product.name }</td>
                 <td data-testid={ `${dataTest}quantity-${index}` }>{ product.qty }</td>
                 <td data-testid={ `${dataTest}unit-price-${index}` }>
-                  { (product.price).replace('.', ',') }
+                  { String(product.price).replace('.', ',') }
                 </td>
                 <td data-testid={ `${dataTest}sub-total-${index}` }>
                   { formate }
@@ -131,9 +137,10 @@ export default function Checkout() {
         <select
           name="seller"
           data-testid="customer_checkout__select-seller"
-          onClick={ ({ target: { value } }) => { setSelectSeller(value); } }
-          value={ selectSeller }
+          onChange={ handleSelect }
+          value={ selectSeller.id }
         >
+          <option>Selecione</option>
           { sellers.map((seller) => (
             <option value={ seller.id } key={ seller.id }>{ seller.name }</option>
           )) }
@@ -162,14 +169,14 @@ export default function Checkout() {
         />
       </label>
       <button
-        type="button"
+        type="submit"
         data-testid="customer_checkout__button-submit-order"
         onClick={ thisCheckout }
       >
         Finalizar pedido
       </button>
-      { buttonStatus !== 'false'
-        ? <Navigate to={ `/customer/orders/${buttonStatus}` } /> : '' }
+      {/* { buttonStatus !== 'false'
+        ? <Navigate to={ `/customer/orders/${buttonStatus}` } /> : '' } */}
     </>
   );
 }

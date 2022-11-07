@@ -1,75 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import handleFetch from '../../services/api';
 import './index.css';
 
 function CustomerOrders() {
   const [sales, setSales] = useState([]);
 
-  const saleMock = [
-    {
-      saleId: 1,
-      sellerId: 1,
-      userId: 1,
-      userName: 'Comprador',
-      sellerName: 'Vendedor',
-      date: '09-09-2022',
-      total: '31,50',
-      address: 'Rua Doze, 2300',
-      status: 'Pendente',
-    },
-    {
-      saleId: 2,
-      sellerId: 1,
-      userId: 1,
-      userName: 'Comprador',
-      sellerName: 'Vendedor',
-      date: '10-09-2022',
-      total: '243,50',
-      address: 'Rua Doze, 2300',
-      status: 'Em Trânsito',
-    },
-  ];
-
-  const setAllSales = (saleList) => {
-    setSales(saleList);
-  };
-
   useEffect(() => {
-    setAllSales(saleMock);
+    const getSalesById = async () => {
+      const response = await handleFetch('GET', '/sales');
+      setSales(response);
+    };
+    getSalesById();
   }, []);
-
-  console.log(sales);
 
   return (
     <div className="sale-section">
       {
         sales.map(({
-          saleId,
+          id,
           status,
-          total,
-          date,
+          totalPrice,
+          saleDate,
         }) => (
-          <Link to={ `/customer/orders/${saleId}` } key={ saleId }>
+          <Link to={ `/customer/orders/${id}` } key={ id }>
             <div className="sale-card">
               <div
-                data-testid={ `customer_orders__element-order-id-${saleId}` }
+                data-testid={ `customer_orders__element-order-id-${id}` }
                 className="sale-title"
               >
                 <p>Pedido</p>
-                <p>{ saleId }</p>
+                <p>{ id }</p>
               </div>
               <div
-                data-testid={ `customers_orders__element-delivery-status-${saleId}` }
+                data-testid={ `customers_orders__element-delivery-status-${id}` }
                 className="sale-status"
               >
                 <h3>{ status }</h3>
               </div>
               <div>
-                <div data-testid={ `customer_orders__element-order-date-${saleId}` }>
-                  <h4>{ date }</h4>
+                <div data-testid={ `customer_orders__element-order-date-${id}` }>
+                  <h4>{ saleDate }</h4>
                 </div>
-                <div data-testid={ `customer_orders__element-card-price-${saleId}` }>
-                  <h4>{ total }</h4>
+                <div data-testid={ `customer_orders__element-card-price-${id}` }>
+                  <h4>{ totalPrice }</h4>
                 </div>
               </div>
             </div>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import handleFetch from '../../services/api';
-import { setIntoLocalStorage } from '../../utils/localStorage';
+import { setIntoLocalStorage, getFromLocalStorage } from '../../utils/localStorage';
 import './index.css';
 
 function Login() {
+  const history = useNavigate();
   // capturando a rota atual
 
   const location = useLocation();
@@ -72,6 +73,20 @@ function Login() {
       return <Navigate to="/admin/manage" />;
     }
   };
+
+  useEffect(() => {
+    const { role } = getFromLocalStorage('user');
+
+    if (role === 'customer') {
+      return history('/customer/products');
+    }
+    if (role === 'seller') {
+      return history('/sellers/orders');
+    }
+    if (role === 'administrator') {
+      return history('/admin/manage');
+    }
+  }, []);
 
   return (
     <>

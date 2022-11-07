@@ -81,6 +81,8 @@ function RenderProducts() {
     }
   }, [quantity, producsArray]);
 
+  // product.price.replace('.', ',') linha 107
+
   return (
     <div>
       {producsArray.map(
@@ -102,7 +104,7 @@ function RenderProducts() {
             <p
               data-testid={ `customer_products__element-card-price-${product.id}` }
             >
-              { product.price.replace('.', ',') }
+              { String(product.price).replace('.', ',') }
             </p>
             <button
               type="button"
