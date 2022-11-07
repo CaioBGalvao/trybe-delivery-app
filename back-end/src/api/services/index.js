@@ -1,13 +1,15 @@
-const loginService = require('./login.services');
-const productServices = require('./product.services');
-const sellerServices = require('./seller.services');
-const checkoutServices = require('./checkout.services');
+const loginService = require('./login.service');
+const productService = require('./product.service');
+const sellerService = require('./seller.service');
+const checkoutService = require('./checkout.service');
 const salesService = require('./sales.service');
+const userService = require('./user.service');
 
 module.exports = { 
   loginService,
-  productServices,
-  sellerServices,
-  checkoutServices,
+  productService,
+  sellerService,
+  checkoutService,
   salesService,
+  userService,
 };
