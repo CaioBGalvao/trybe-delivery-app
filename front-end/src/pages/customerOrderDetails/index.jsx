@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
 import CustomerOrderTable from './components/customerOrderTable';
@@ -32,7 +32,7 @@ function CustomerOrderDetails() {
       setOrder(response);
     };
     getSaleById();
-  }, []);
+  }, [id]);
 
   console.log(order);
 

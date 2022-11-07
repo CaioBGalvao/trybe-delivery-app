@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import handleFetch from '../../services/api';
-import { setIntoLocalStorage, getFromLocalStorage } from '../../utils/localStorage';
+import { getFromLocalStorage, setIntoLocalStorage } from '../../utils/localStorage';
 import './index.css';
 
 function Login() {
@@ -86,7 +86,7 @@ function Login() {
     if (role === 'administrator') {
       return history('/admin/manage');
     }
-  }, []);
+  }, [history]);
 
   return (
     <>
