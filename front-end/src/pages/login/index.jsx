@@ -62,7 +62,7 @@ function Login() {
 
   const switchRoute = () => {
     if (roleStatus === 'seller') {
-      return <Navigate to="/sellers/orders" />;
+      return <Navigate to="/seller/orders" />;
     }
 
     if (roleStatus === 'customer') {
@@ -81,7 +81,7 @@ function Login() {
       return history('/customer/products');
     }
     if (role === 'seller') {
-      return history('/sellers/orders');
+      return history('/seller/orders');
     }
     if (role === 'administrator') {
       return history('/admin/manage');
