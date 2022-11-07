@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function CustomerOrderTable({ order }) {
+  const [orderDate, setOrderDate] = useState(order.saleDate);
+
+  useEffect(() => {
+    const sub = 10;
+    const dateFormater = () => {
+      const date = orderDate.substring(sub, 0);
+      const newDate = date.split('-').reverse().join('/');
+      setOrderDate(newDate);
+    };
+
+    dateFormater();
+  }, []);
+
   const dataTest = 'customer_order_details__element-order';
   return (
     <section>
@@ -15,7 +28,7 @@ function CustomerOrderTable({ order }) {
           { order.seller.name }
         </h4>
         <h4 data-testid={ `${dataTest}-details-label-order-date` }>
-          { order.saleDate }
+          { orderDate }
         </h4>
         <h4
           data-testid={ `${dataTest}-details-label-delivery-status${order.saleId}` }
@@ -25,6 +38,7 @@ function CustomerOrderTable({ order }) {
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
+          disabled="true"
         >
           Marcar Como Entregue
         </button>
@@ -65,7 +79,7 @@ function CustomerOrderTable({ order }) {
                 <td
                   data-testid={ `${dataTest}-table-unit-price-${index}` }
                 >
-                  { String(price.toFixed(2)).replace('.', ',') }
+                  { String(price).replace('.', ',') }
                 </td>
                 <td
                   data-testid={ `${dataTest}-table-sub-total-${index}` }
