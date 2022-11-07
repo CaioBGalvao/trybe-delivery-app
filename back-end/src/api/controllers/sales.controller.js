@@ -1,6 +1,5 @@
 const { salesService } = require('../services');
 const securityServices = require('../security/services/security.services');
-const { ConsoleMessage } = require('puppeteer');
 
 const findAll = async (req, res) => {
   const { email } = req.headers;
