@@ -1,0 +1,35 @@
+a {
+  color: black;
+}
+
+a:link { text-decoration: none; }
+
+a:visited { text-decoration: none; }
+
+a:hover { text-decoration: none; }
+
+a:active { text-decoration: none; }
+
+.sale-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sale-card {
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+}
+
+.sale-title {
+  padding: 10px;
+}
+
+.sale-title p {
+  display: flex;
+  justify-content: center;
+}
+
+.sale-status {
+  padding: 5px 10px;
+}
