@@ -27,10 +27,10 @@ const findOne = async (id) => Sale.findByPk(id, {
 });
 
 const update = async (id, stat) => Sale.update(
-  { status: stat},
+  { status: stat },
   { where: {
     id,
-  }}
+  } },
 );
 
 module.exports = { findAll, findOne, update };

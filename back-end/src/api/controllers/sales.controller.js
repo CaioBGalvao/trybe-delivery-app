@@ -24,6 +24,6 @@ const update = async (req, res) => {
   if (!sale) res.status(404).json({ message: 'Sale not found' });
 
   return res.status(200).json(sale);
-}
+};
 
 module.exports = { findAll, findOne, update };
