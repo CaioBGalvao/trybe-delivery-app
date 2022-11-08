@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
 import Header from '../../components/header';
 import CustomerOrderTable from './components/customerOrderTable';
-import Header from '../../components/header';
 import './index.css';
 
 function CustomerOrderDetails() {
