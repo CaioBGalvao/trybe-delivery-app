@@ -6,6 +6,7 @@ const salesRouter = Router();
 
 salesRouter
   .get('/', validateToken, salesController.findAll)
-  .get('/:id', validateToken, salesController.findOne);
+  .get('/:id', validateToken, salesController.findOne)
+  .put('/:id', validateToken, salesController.update);
 
 module.exports = salesRouter;

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import handleFetch from '../../../services/api';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);

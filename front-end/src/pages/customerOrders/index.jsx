@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/header';
@@ -14,20 +15,6 @@ function CustomerOrders() {
     };
     getSalesById();
   }, []);
-
-  const dateFormat = (saleDate) => {
-    const date = new Date(saleDate.split('T')[0]);
-    const twoNum = -2;
-
-    const day = `0${date.getUTCDate()}`.slice(twoNum);
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
-
-  const currencyFormat = (currency) => parseFloat(currency)
-    .toLocaleString('pt-br', { minimumFractionDigits: 2 });
 
   return (
     <section>
@@ -58,14 +45,10 @@ function CustomerOrders() {
                 </div>
                 <div>
                   <div data-testid={ `customer_orders__element-order-date-${id}` }>
-                    <h4>{ dateFormat(saleDate) }</h4>
+                    <h4>{ moment(saleDate).format('DD/MM/YYYY') }</h4>
                   </div>
                   <div data-testid={ `customer_orders__element-card-price-${id}` }>
-                    <h4>
-                      {
-                        currencyFormat(totalPrice)
-                      }
-                    </h4>
+                    <h4>{ totalPrice.replace('.', ',') }</h4>
                   </div>
                 </div>
               </div>
