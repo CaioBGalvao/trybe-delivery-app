@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import handleFetch from '../../services/api';
 import Header from '../../components/header';
+import handleFetch from '../../services/api';
 import './index.css';
 
 function CustomerOrders() {
@@ -15,7 +15,20 @@ function CustomerOrders() {
     getSalesById();
   }, []);
 
-  console.log(sales);
+  const dateFormat = (saleDate) => {
+    const date = new Date(saleDate.split('T')[0]);
+    const twoNum = -2;
+
+    const day = `0${date.getUTCDate()}`.slice(twoNum);
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const currencyFormat = (currency) => parseFloat(currency)
+    .toLocaleString('pt-br', { minimumFractionDigits: 2 });
+
   return (
     <section>
       <Header />
@@ -38,17 +51,21 @@ function CustomerOrders() {
                   <p>{ id }</p>
                 </div>
                 <div
-                  data-testid={ `customers_orders__element-delivery-status-${id}` }
+                  data-testid={ `customer_orders__element-delivery-status-${id}` }
                   className="sale-status"
                 >
                   <h3>{ status }</h3>
                 </div>
                 <div>
                   <div data-testid={ `customer_orders__element-order-date-${id}` }>
-                    <h4>{ saleDate }</h4>
+                    <h4>{ dateFormat(saleDate) }</h4>
                   </div>
                   <div data-testid={ `customer_orders__element-card-price-${id}` }>
-                    <h4>{ totalPrice }</h4>
+                    <h4>
+                      {
+                        currencyFormat(totalPrice)
+                      }
+                    </h4>
                   </div>
                 </div>
               </div>
