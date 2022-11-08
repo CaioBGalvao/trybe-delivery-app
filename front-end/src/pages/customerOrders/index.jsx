@@ -15,6 +15,7 @@ function CustomerOrders() {
     getSalesById();
   }, []);
 
+  console.log(sales);
   return (
     <section>
       <Header />

@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
 function SellerOrderTable({ order }) {
-  const [orderDate, setOrderDate] = useState(order.saleDate);
+  const [orderDate, setOrderDate] = useState();
+  console.log(orderDate);
 
   useEffect(() => {
-    const sub = 10;
     const dateFormater = () => {
-      const date = orderDate.substring(sub, 0);
-      const newDate = date.split('-').reverse().join('/');
+      const newDate = moment(order.saleDate).format('DD/MM/YYYY');
       setOrderDate(newDate);
     };
-
     dateFormater();
-  }, [orderDate]);
+  }, []);
 
   const dataTest = 'seller_order_details__element-order';
   return (
