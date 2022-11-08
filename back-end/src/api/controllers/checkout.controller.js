@@ -13,6 +13,7 @@ const checkout = async (req, res) => {
 };
 
 const patch = async (req, res) => {
+  console.log(res.body);
   const { id: saleId } = req.params;
   const { email, status } = req.body;
 

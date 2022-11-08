@@ -17,12 +17,13 @@ function SellerOrderTable({ order }) {
 
   const dataTest = 'seller_order_details__element-order';
 
-  const statusCheck = async ({ type }) => {
+  const statusCheck = async (type) => {
     const typePatch = { preparing: 'Preparando', dispatch: 'Em Trânsito' };
+
     await handleFetch(
       'PATCH',
       `/checkout/sales/status/${order.id}`,
-      typePatch[type],
+      { status: typePatch[type] },
     );
   };
 
@@ -43,15 +44,17 @@ function SellerOrderTable({ order }) {
         </h4>
         <button
           type="button"
+          name="preparing"
           data-testid="seller_order_details__button-preparing-check"
-          onClick={ statusCheck }
+          onClick={ ({ target }) => statusCheck(target.name) }
         >
           Preparar Pedido
         </button>
         <button
           type="button"
+          name="dispatch"
           data-testid="seller_order_details__button-dispatch-check"
-          onClick={ statusCheck }
+          onClick={ ({ target }) => statusCheck(target.name) }
         >
           Saiu Para Entrega
         </button>

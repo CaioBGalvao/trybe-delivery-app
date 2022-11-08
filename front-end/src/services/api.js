@@ -15,7 +15,7 @@ export default async function handleFetch(type, ENDPOINT, body) {
     headers: {
       'Content-Type': content,
       Accept: content,
-      authorization: `${token}`,
+      authorization: token,
     },
   };
 
