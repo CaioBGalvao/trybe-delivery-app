@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import handleFetch from '../../../services/api';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);
@@ -14,6 +15,14 @@ function CustomerOrderTable({ order }) {
 
     dateFormater();
   }, [orderDate]);
+
+  const statusCheck = async () => {
+    await handleFetch(
+      'PATCH',
+      `/checkout/sales/status/${order.id}`,
+      { status: 'Entregue' },
+    );
+  };
 
   const dataTest = 'customer_order_details__element-order';
   return (
@@ -38,7 +47,7 @@ function CustomerOrderTable({ order }) {
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
-          disabled="true"
+          onClick={ statusCheck }
         >
           Marcar Como Entregue
         </button>
