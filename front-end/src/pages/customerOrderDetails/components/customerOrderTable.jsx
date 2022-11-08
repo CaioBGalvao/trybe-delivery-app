@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import handleFetch from '../../../services/api';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);
+  const [disabled, setDisabled] = useState(order.status !== 'Em Trânsito');
 
   useEffect(() => {
     const sub = 10;
@@ -21,9 +23,12 @@ function CustomerOrderTable({ order }) {
       `/checkout/sales/status/${order.id}`,
       { status: 'Entregue' },
     );
+
+    setDisabled(true);
   };
 
   const dataTest = 'customer_order_details__element-order';
+
   return (
     <section>
       <div>
@@ -47,7 +52,7 @@ function CustomerOrderTable({ order }) {
           type="button"
           data-testid="customer_order_details__button-delivery-check"
           onClick={ statusCheck }
-          disabled={ order.status !== 'Em Trânsito' }
+          disabled={ disabled }
         >
           Marcar Como Entregue
         </button>

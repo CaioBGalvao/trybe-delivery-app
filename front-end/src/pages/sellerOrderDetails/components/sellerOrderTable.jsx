@@ -5,7 +5,10 @@ import handleFetch from '../../../services/api';
 
 function SellerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState();
-  console.log(orderDate);
+  const [disabled, setDisabled] = useState({
+    preparing: order.status === 'Preparando',
+    dispatch: order.status === 'Em Trânsito' || order.status === 'Pendente',
+  });
 
   useEffect(() => {
     const dateFormater = () => {
@@ -25,6 +28,11 @@ function SellerOrderTable({ order }) {
       `/checkout/sales/status/${order.id}`,
       { status: typePatch[type] },
     );
+
+    setDisabled({
+      preparing: type === 'preparing',
+      dispatch: type === 'dispatch',
+    });
   };
 
   return (
@@ -47,7 +55,7 @@ function SellerOrderTable({ order }) {
           name="preparing"
           data-testid="seller_order_details__button-preparing-check"
           onClick={ ({ target }) => statusCheck(target.name) }
-          disabled={ order.status === 'Pendente' }
+          disabled={ disabled.preparing }
         >
           Preparar Pedido
         </button>
@@ -56,7 +64,7 @@ function SellerOrderTable({ order }) {
           name="dispatch"
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ ({ target }) => statusCheck(target.name) }
-          disabled={ order.status === 'Em Trânsito' }
+          disabled={ disabled.dispatch }
         >
           Saiu Para Entrega
         </button>
