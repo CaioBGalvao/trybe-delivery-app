@@ -55,6 +55,7 @@ function SellerOrderTable({ order }) {
           name="dispatch"
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ ({ target }) => statusCheck(target.name) }
+          disabled={ order.status !== 'Em Trânsito' }
         >
           Saiu Para Entrega
         </button>
