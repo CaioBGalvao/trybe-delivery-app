@@ -51,3 +51,31 @@ export default async function handleFetch(type, ENDPOINT, body) {
     }
   }
 }
+
+export async function handlePut(type, ENDPOINT, body) {
+  const formateENDPOINT = `http://localhost:3001${ENDPOINT}`;
+  const content = 'application/json';
+  const { token } = getFromLocalStorage('user');
+
+  if (type === 'PUT') {
+    const requestOptions = {
+      method: type,
+      body: JSON.stringify(body),
+      headers: {
+        'content-type': content,
+        Accept: content,
+        authorization: `${token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(formateENDPOINT, requestOptions);
+
+      return response.json();
+    } catch (e) {
+      const error = e.message;
+
+      return error;
+    }
+  }
+}

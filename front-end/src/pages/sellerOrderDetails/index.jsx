@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
+import HeaderSeller from '../../components/headerSeller';
 import SellerOrderTable from './components/sellerOrderTable';
 
 function SellerOrderDetails() {
@@ -19,6 +20,7 @@ function SellerOrderDetails() {
   console.log(order);
   return (
     <section>
+      <HeaderSeller />
       {
         (!order)
           ? <div>Loading</div>

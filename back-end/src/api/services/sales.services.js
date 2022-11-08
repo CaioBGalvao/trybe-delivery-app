@@ -26,4 +26,11 @@ const findOne = async (id) => Sale.findByPk(id, {
   ],
 });
 
-module.exports = { findAll, findOne };
+const update = async (id, stat) => Sale.update(
+  { status: stat},
+  { where: {
+    id,
+  }}
+);
+
+module.exports = { findAll, findOne, update };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import HeaderSeller from '../../components/headerSeller';
 import handleFetch from '../../services/api';
 
 function SellerOrders() {
@@ -16,6 +17,7 @@ function SellerOrders() {
   console.log(sales);
   return (
     <section>
+      <HeaderSeller />
 
       <div className="sale-section">
         {

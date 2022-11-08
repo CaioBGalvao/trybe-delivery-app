@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { handlePut } from '../../../services/api';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);
+  const [entregue, setEntregue] = useState(true);
 
   useEffect(() => {
     const sub = 10;
@@ -14,6 +16,24 @@ function CustomerOrderTable({ order }) {
 
     dateFormater();
   }, [orderDate]);
+
+  useEffect(() => {
+    if (order.status === 'Em Trânsito') {
+      setEntregue(false);
+    }
+  }, []);
+
+  const updateEntregue = async () => {
+    const data = {
+      status: 'Entregue',
+    };
+
+    try {
+      await handlePut('PUT', `/sales/${order.id}`, data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const dataTest = 'customer_order_details__element-order';
   return (
@@ -38,7 +58,8 @@ function CustomerOrderTable({ order }) {
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
-          disabled="true"
+          onClick={ updateEntregue }
+          disabled={ entregue }
         >
           Marcar Como Entregue
         </button>
