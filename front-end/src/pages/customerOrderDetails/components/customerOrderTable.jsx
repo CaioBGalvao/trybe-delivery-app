@@ -48,6 +48,7 @@ function CustomerOrderTable({ order }) {
           type="button"
           data-testid="customer_order_details__button-delivery-check"
           onClick={ statusCheck }
+          disabled={ order.status !== 'Em Trânsito' }
         >
           Marcar Como Entregue
         </button>
