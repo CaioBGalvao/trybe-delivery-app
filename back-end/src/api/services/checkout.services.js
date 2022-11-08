@@ -3,7 +3,7 @@ const validateCheckout = require('../schemas/checkout/checkout.schema');
 
 const typeUser = {
   customer: { id: 'userId', status: ['Entregue'] },
-  seller: { id: 'sellerId', status: ['Entregue', 'Preparando', 'Em Trânsito'] },
+  seller: { id: 'sellerId', status: ['Preparando', 'Em Trânsito'] },
 };
 
 const dateFormater = (saled) => {

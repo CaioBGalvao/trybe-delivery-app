@@ -7,47 +7,25 @@ export default async function handleFetch(type, ENDPOINT, body) {
   const formateENDPOINT = `http://localhost:3001${ENDPOINT}`;
   const content = 'application/json';
   const { token } = getFromLocalStorage('user');
+  const hasBody = ['POST', 'PUT', 'PATCH'].some((typeBody) => typeBody === type);
 
-  if (type === 'GET') {
-    const requestOptions = {
-      method: type,
-      headers: {
-        'Content-Type': content,
-        Accept: content,
-        authorization: `${token}`,
-      },
-    };
+  const requestOptions = {
+    method: type,
+    body: hasBody ? JSON.stringify(body) : null,
+    headers: {
+      'Content-Type': content,
+      Accept: content,
+      authorization: `${token}`,
+    },
+  };
 
-    try {
-      const response = await fetch(formateENDPOINT, requestOptions);
+  try {
+    const response = await fetch(formateENDPOINT, requestOptions);
 
-      return response.json();
-    } catch (e) {
-      const error = e.message;
+    return response.json();
+  } catch (e) {
+    const error = e.message;
 
-      return error;
-    }
-  }
-
-  if (type === 'POST') {
-    const requestOptions = {
-      method: type,
-      body: JSON.stringify(body),
-      headers: {
-        'content-type': content,
-        Accept: content,
-        authorization: `${token}`,
-      },
-    };
-
-    try {
-      const response = await fetch(formateENDPOINT, requestOptions);
-
-      return response.json();
-    } catch (e) {
-      const error = e.message;
-
-      return error;
-    }
+    return error;
   }
 }

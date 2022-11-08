@@ -1,6 +1,7 @@
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import handleFetch from '../../../services/api';
 
 function SellerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState();
@@ -12,9 +13,19 @@ function SellerOrderTable({ order }) {
       setOrderDate(newDate);
     };
     dateFormater();
-  }, []);
+  }, [order.saleDate]);
 
   const dataTest = 'seller_order_details__element-order';
+
+  const statusCheck = async ({ type }) => {
+    const typePatch = { preparing: 'Preparando', dispatch: 'Em Trânsito' };
+    await handleFetch(
+      'PATCH',
+      `/checkout/sales/status/${order.id}`,
+      typePatch[type],
+    );
+  };
+
   return (
     <section>
       <div>
@@ -33,13 +44,14 @@ function SellerOrderTable({ order }) {
         <button
           type="button"
           data-testid="seller_order_details__button-preparing-check"
+          onClick={ statusCheck }
         >
           Preparar Pedido
         </button>
         <button
           type="button"
           data-testid="seller_order_details__button-dispatch-check"
-          disabled
+          onClick={ statusCheck }
         >
           Saiu Para Entrega
         </button>
