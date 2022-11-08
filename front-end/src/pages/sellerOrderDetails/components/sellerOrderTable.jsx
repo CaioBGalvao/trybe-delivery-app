@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { handlePut } from '../../../services/api';
 
-function CustomerOrderTable({ order }) {
-  const [orderDate, setOrderDate] = useState(order.saleDate);
-  const [entregue, setEntregue] = useState(true);
+function SellerOrderTable({ order }) {
+  const [orderDate, setOrderDate] = useState();
+  const [preparando, setPreparando] = useState(false);
+  const [transito, setTransito] = useState(true);
+  console.log(orderDate);
 
   useEffect(() => {
-    const sub = 10;
     const dateFormater = () => {
-      const date = orderDate.substring(sub, 0);
-      const newDate = date.split('-').reverse().join('/');
+      const newDate = moment(order.saleDate).format('DD/MM/YYYY');
       setOrderDate(newDate);
     };
-
     dateFormater();
-  }, [orderDate]);
+  }, []);
 
   useEffect(() => {
-    if (order.status === 'Em Trânsito') {
-      setEntregue(false);
+    if (order.status === 'Preparando') {
+      setTransito(false);
+    }
+    if (order.status === 'Preparando'
+    || order.status === 'Em Trânsito'
+    || order.status === 'Entregue') {
+      setPreparando(true);
     }
   }, []);
 
-  const updateEntregue = async () => {
+  const updatePreparando = async () => {
     const data = {
-      status: 'Entregue',
+      status: 'Preparando',
     };
 
     try {
@@ -35,7 +40,20 @@ function CustomerOrderTable({ order }) {
     }
   };
 
-  const dataTest = 'customer_order_details__element-order';
+  const updateTransito = async () => {
+    const data = {
+      status: 'Em Trânsito',
+    };
+
+    try {
+      await handlePut('PUT', `/sales/${order.id}`, data);
+      setTransito(true);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const dataTest = 'seller_order_details__element-order';
   return (
     <section>
       <div>
@@ -43,25 +61,29 @@ function CustomerOrderTable({ order }) {
           Pedido
           { order.id }
         </h3>
-        <h4 data-testid={ `${dataTest}-details-label-seller-name` }>
-          P.Vend:
-          { order.seller.name }
-        </h4>
         <h4 data-testid={ `${dataTest}-details-label-order-date` }>
           { orderDate }
         </h4>
         <h4
-          data-testid={ `${dataTest}-details-label-delivery-status${order.saleId}` }
+          data-testid={ `${dataTest}-details-label-delivery-status` }
         >
           { order.status }
         </h4>
         <button
           type="button"
-          data-testid="customer_order_details__button-delivery-check"
-          onClick={ updateEntregue }
-          disabled={ entregue }
+          data-testid="seller_order_details__button-preparing-check"
+          onClick={ updatePreparando }
+          disabled={ preparando }
         >
-          Marcar Como Entregue
+          Preparar Pedido
+        </button>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-dispatch-check"
+          onClick={ updateTransito }
+          disabled={ transito }
+        >
+          Saiu Para Entrega
         </button>
       </div>
       <table>
@@ -113,7 +135,7 @@ function CustomerOrderTable({ order }) {
         </tbody>
       </table>
       <div
-        data-testid="customer_order_details__element-order-total-price"
+        data-testid="seller_order_details__element-order-total-price"
       >
         Total:
         { String((order.totalPrice)).replace('.', ',') }
@@ -123,8 +145,8 @@ function CustomerOrderTable({ order }) {
   );
 }
 
-CustomerOrderTable.propTypes = {
+SellerOrderTable.propTypes = {
   order: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default CustomerOrderTable;
+export default SellerOrderTable;

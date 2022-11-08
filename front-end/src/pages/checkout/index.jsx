@@ -77,6 +77,7 @@ export default function Checkout() {
 
     try {
       const response = await handleFetch('POST', '/checkout', formate);
+      console.log(response);
       history(`/customer/orders/${Number(response.saleId)}`);
     } catch (e) {
       console.log(e.message);

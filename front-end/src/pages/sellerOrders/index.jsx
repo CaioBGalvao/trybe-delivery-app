@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+import HeaderSeller from '../../components/headerSeller';
 import handleFetch from '../../services/api';
 
 function SellerOrders() {
@@ -15,6 +17,7 @@ function SellerOrders() {
   console.log(sales);
   return (
     <section>
+      <HeaderSeller />
 
       <div className="sale-section">
         {
@@ -43,10 +46,10 @@ function SellerOrders() {
                 </div>
                 <div>
                   <div data-testid={ `seller_orders__element-order-date-${id}` }>
-                    <h4>{ saleDate }</h4>
+                    <h4>{ moment(saleDate).format('DD/MM/YYYY') }</h4>
                   </div>
                   <div data-testid={ `seller_orders__element-card-price-${id}` }>
-                    <h4>{ totalPrice }</h4>
+                    <h4>{ totalPrice.replace('.', ',') }</h4>
                   </div>
                 </div>
                 <p>{`${deliveryAddress}, ${deliveryNumber}`}</p>

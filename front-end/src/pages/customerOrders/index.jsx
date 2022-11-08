@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import handleFetch from '../../services/api';
 import Header from '../../components/header';
 import './index.css';
@@ -15,6 +16,7 @@ function CustomerOrders() {
     getSalesById();
   }, []);
 
+  console.log(sales);
   return (
     <section>
       <Header />
@@ -37,17 +39,17 @@ function CustomerOrders() {
                   <p>{ id }</p>
                 </div>
                 <div
-                  data-testid={ `customers_orders__element-delivery-status-${id}` }
+                  data-testid={ `customer_orders__element-delivery-status-${id}` }
                   className="sale-status"
                 >
                   <h3>{ status }</h3>
                 </div>
                 <div>
                   <div data-testid={ `customer_orders__element-order-date-${id}` }>
-                    <h4>{ saleDate }</h4>
+                    <h4>{ moment(saleDate).format('DD/MM/YYYY') }</h4>
                   </div>
                   <div data-testid={ `customer_orders__element-card-price-${id}` }>
-                    <h4>{ totalPrice }</h4>
+                    <h4>{ totalPrice.replace('.', ',') }</h4>
                   </div>
                 </div>
               </div>
