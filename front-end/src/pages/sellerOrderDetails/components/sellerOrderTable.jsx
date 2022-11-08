@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
-function CustomerOrderTable({ order }) {
-  const [orderDate, setOrderDate] = useState(order.saleDate);
+function SellerOrderTable({ order }) {
+  const [orderDate, setOrderDate] = useState();
+  console.log(orderDate);
 
   useEffect(() => {
-    const sub = 10;
     const dateFormater = () => {
-      const date = orderDate.substring(sub, 0);
-      const newDate = date.split('-').reverse().join('/');
+      const newDate = moment(order.saleDate).format('DD/MM/YYYY');
       setOrderDate(newDate);
     };
-
     dateFormater();
-  }, [orderDate]);
+  }, []);
 
-  const dataTest = 'customer_order_details__element-order';
+  const dataTest = 'seller_order_details__element-order';
   return (
     <section>
       <div>
@@ -23,24 +22,26 @@ function CustomerOrderTable({ order }) {
           Pedido
           { order.id }
         </h3>
-        <h4 data-testid={ `${dataTest}-details-label-seller-name` }>
-          P.Vend:
-          { order.seller.name }
-        </h4>
         <h4 data-testid={ `${dataTest}-details-label-order-date` }>
           { orderDate }
         </h4>
         <h4
-          data-testid={ `${dataTest}-details-label-delivery-status${order.saleId}` }
+          data-testid={ `${dataTest}-details-label-delivery-status` }
         >
           { order.status }
         </h4>
         <button
           type="button"
-          data-testid="customer_order_details__button-delivery-check"
-          disabled="true"
+          data-testid="seller_order_details__button-preparing-check"
         >
-          Marcar Como Entregue
+          Preparar Pedido
+        </button>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-dispatch-check"
+          disabled
+        >
+          Saiu Para Entrega
         </button>
       </div>
       <table>
@@ -92,7 +93,7 @@ function CustomerOrderTable({ order }) {
         </tbody>
       </table>
       <div
-        data-testid="customer_order_details__element-order-total-price"
+        data-testid="seller_order_details__element-order-total-price"
       >
         Total:
         { String((order.totalPrice)).replace('.', ',') }
@@ -102,8 +103,8 @@ function CustomerOrderTable({ order }) {
   );
 }
 
-CustomerOrderTable.propTypes = {
+SellerOrderTable.propTypes = {
   order: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default CustomerOrderTable;
+export default SellerOrderTable;

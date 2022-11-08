@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import handleFetch from '../../services/api';
-import Header from '../../components/header';
-import CustomerOrderTable from './components/customerOrderTable';
-import './index.css';
+import SellerOrderTable from './components/sellerOrderTable';
 
-function CustomerOrderDetails() {
+function SellerOrderDetails() {
   const [order, setOrder] = useState();
 
   const { id } = useParams();
@@ -19,17 +17,15 @@ function CustomerOrderDetails() {
   }, [id]);
 
   console.log(order);
-
   return (
     <section>
-      <Header />
       {
         (!order)
           ? <div>Loading</div>
-          : <CustomerOrderTable order={ order } />
+          : <SellerOrderTable order={ order } />
       }
     </section>
   );
 }
 
-export default CustomerOrderDetails;
+export default SellerOrderDetails;
