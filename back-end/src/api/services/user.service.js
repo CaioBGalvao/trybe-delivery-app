@@ -46,7 +46,10 @@ const userService = {
   },
   findAll: async () => User.findAll(),
   findById: async (id) => User.findByPk(id),
-  findAllSellers: async () => User.findAll({ where: { role: 'seller' } }),
+  findAllSellers: async () => User.findAll({ 
+    where: { role: 'seller' }, 
+    attributes: ['id', 'name'], 
+  }),
 };
 
 module.exports = userService;

@@ -20,6 +20,10 @@ const userController = {
   
     return res.status(200).json(user);
   },
+  findAllSellers: async (req, res) => {
+    const sellers = await userService.findAllSellers();
+    return res.status(200).json(sellers);
+  },
 };
 
 module.exports = userController;

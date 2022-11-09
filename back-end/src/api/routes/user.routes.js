@@ -6,6 +6,7 @@ const userRouter = Router();
 userRouter
   .post('', userController.create)
   .get('', userController.findAll)
-  .get('/:id', userController.findById);
+  .get('/:id', userController.findById)
+  .get('/sellers', userController.findAllSellers);
 
 module.exports = userRouter;
