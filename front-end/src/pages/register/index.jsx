@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import handleFetch from '../../services/api';
 
@@ -58,7 +58,7 @@ function Register() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login/cadastro', registerObj);
+      const response = await handleFetch('POST', '/users', registerObj);
       const message = 'Email already registered';
       if (response.message === message) {
         setFailedRegister(true);
