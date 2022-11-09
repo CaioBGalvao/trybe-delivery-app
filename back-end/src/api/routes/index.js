@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const loginRouter = require('./login.routes');
-const productRouter = require('./product.routes');
-const salesRouter = require('./sales.routes');
-const userRouter = require('./user.routes');
+const loginRouter = require('./Login.routes');
+const productRouter = require('./Product.routes');
+const salesRouter = require('./Sales.routes');
+const userRouter = require('./User.routes');
 
 const router = Router();
 

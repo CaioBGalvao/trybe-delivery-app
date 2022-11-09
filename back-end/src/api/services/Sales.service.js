@@ -1,5 +1,5 @@
 const { Sale, Product, User, saleProduct } = require('../../database/models');
-const validateSale = require('../schemas/sales/create.schema');
+const validateSale = require('../schemas/Sales/create.schema');
 
 const dateFormater = (obj) => {
   const date = obj.saleDate.toISOString().split('T')[0];

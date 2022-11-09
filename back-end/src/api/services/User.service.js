@@ -1,6 +1,6 @@
 const { User } = require('../../database/models');
-const validateLogin = require('../schemas/user/login.schema');
-const validateNewUser = require('../schemas/user/create.schema');
+const validateLogin = require('../schemas/User/login.schema');
+const validateNewUser = require('../schemas/User/create.schema');
 const { crypto, jwt } = require('../security');
 
 const userService = {
