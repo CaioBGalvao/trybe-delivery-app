@@ -1,5 +1,5 @@
 const { Sale, Product, User, saleProduct } = require('../../database/models');
-const validateCheckout = require('../schemas/checkout/checkout.schema');
+const validateSale = require('../schemas/sales/create.schema');
 
 const salesService = {
   typeUser: {
@@ -12,7 +12,7 @@ const salesService = {
   },
 
   create: async (obj) => {
-    const validatedObj = validateCheckout(obj);
+    const validatedObj = validateSale(obj);
   
     const { salesProducts, ...checkoutInfo } = validatedObj;
   

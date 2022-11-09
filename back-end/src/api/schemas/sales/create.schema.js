@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const checkoutSchema = Joi.object({
+const saleSchema = Joi.object({
   userId: Joi.string().pattern(/^[0-9]+$/).empty('').required()
   .messages({
     'string.pattern.base': 'userId must be a string of numbers&400',
@@ -50,7 +50,7 @@ const checkoutSchema = Joi.object({
 });
 
 const validateSales = (objSale) => {
-  const { error, value } = checkoutSchema.validate(objSale);
+  const { error, value } = saleSchema.validate(objSale);
 
   if (error) {
     throw error;

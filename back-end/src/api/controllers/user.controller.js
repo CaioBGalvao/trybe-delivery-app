@@ -14,7 +14,7 @@ const userController = {
     const users = await userService.findAll();
     return res.status(200).json(users);
   },
-  findOne: async (req, res) => {
+  findById: async (req, res) => {
     const { id } = req.params;
     const user = await userService.findById(id);
   
