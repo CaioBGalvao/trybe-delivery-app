@@ -6,7 +6,6 @@ function NewUserRegister() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('customer');
   const [isDisabled, setIsDisabled] = useState(true);
-
   const [failedRegister, setFailedRegister] = useState(false);
 
   const handleClick = async (event) => {
@@ -20,7 +19,7 @@ function NewUserRegister() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login/cadastro', registerObj);
+      const response = await handleFetch('POST', '/admin/cadastro', registerObj);
       if (response.message === message) {
         setFailedRegister(true);
       }
