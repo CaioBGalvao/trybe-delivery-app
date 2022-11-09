@@ -50,6 +50,8 @@ const userService = {
     where: { role: 'seller' }, 
     attributes: ['id', 'name'], 
   }),
-};
+
+  delete: async ({ id }) => User.destroy({ where: { id } }),
+};  
 
 module.exports = userService;

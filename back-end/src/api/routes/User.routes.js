@@ -7,6 +7,7 @@ userRouter
   .post('/', userController.create)
   .get('/sellers', userController.findAllSellers)
   .get('/:id', userController.findById)
-  .get('/', userController.findAll);
+  .get('/', userController.findAll)
+  .delete('/:id', userController.delete);
 
 module.exports = userRouter;

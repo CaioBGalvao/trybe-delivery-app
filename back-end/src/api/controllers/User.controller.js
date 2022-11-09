@@ -26,6 +26,13 @@ const userController = {
     const sellers = await userService.findAllSellers();
     return res.status(200).json(sellers);
   },
+  delete: async (req, res) => {
+    const result = await userService.delete(req.params);
+
+    if (!result) return res.status(404).json({ message: 'User not found' });
+
+    return res.status(204).end();
+  },
 };
 
 module.exports = userController;
