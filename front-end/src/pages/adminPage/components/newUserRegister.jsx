@@ -6,7 +6,6 @@ function NewUserRegister() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('customer');
   const [isDisabled, setIsDisabled] = useState(true);
-
   const [failedRegister, setFailedRegister] = useState(false);
 
   const handleClick = async (event) => {
