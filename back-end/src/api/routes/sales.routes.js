@@ -5,6 +5,7 @@ const { validateToken } = require('../security/jwt');
 const salesRouter = Router();
 
 salesRouter
+  .post('/', validateToken, salesController.create)
   .get('/', validateToken, salesController.findAll)
   .get('/:id', validateToken, salesController.findOne)
   .patch('/:id', validateToken, salesController.patch);
