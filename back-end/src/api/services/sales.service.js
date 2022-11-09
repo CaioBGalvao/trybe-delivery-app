@@ -1,16 +1,16 @@
 const { Sale, Product, User, saleProduct } = require('../../database/models');
 const validateSale = require('../schemas/sales/create.schema');
 
-const salesService = {
-  typeUser: {
-    customer: { id: 'userId', status: ['Entregue'] },
-    seller: { id: 'sellerId', status: ['Preparando', 'Em Trânsito'] },
-  },
-  dateFormater: (obj) => {
-    const date = obj.saleDate.toISOString().split('T')[0];
-    return date.split('-').reverse().join('/');
-  },
+const dateFormater = (obj) => {
+  const date = obj.saleDate.toISOString().split('T')[0];
+  return date.split('-').reverse().join('/');
+};
+const typeUser = {
+  customer: { id: 'userId', status: ['Entregue'] },
+  seller: { id: 'sellerId', status: ['Preparando', 'Em Trânsito'] },
+};
 
+const salesService = {
   create: async (obj) => {
     const validatedObj = validateSale(obj);
   
@@ -25,7 +25,7 @@ const salesService = {
   
     const response = {
       saleId: sold.id.toString(),
-      saleDate: this.dateFormater(sold),
+      saleDate: dateFormater(sold),
       totalPrice: sold.totalPrice,
       status: sold.status.toString(),
       saledProducts,
@@ -34,10 +34,10 @@ const salesService = {
     return response;
   },
   findAll: async ({ role, id }) => Sale.findAll({
-    where: { [this.typeUser[role].id]: id },
+    where: { [typeUser[role].id]: id },
     attributes: ['id', 'totalPrice', 'saleDate', 'status', 'deliveryAddress', 'deliveryNumber'],
   }),
-  findOne: async (id) => Sale.findByPk(id, { 
+  findById: async (id) => Sale.findByPk(id, { 
     attributes: ['id', 'totalPrice', 'saleDate', 'status'],
     include: [
       {
@@ -53,17 +53,17 @@ const salesService = {
     ],
   }),
   patch: async ({ role, id, status, saleId }) => {
-    const sale = await Sale.findOne({ where: { [this.typeUser[role].id]: id, id: saleId } });
+    const sale = await Sale.findOne({ where: { [typeUser[role].id]: id, id: saleId } });
   
     if (!sale) {
       throw new Error('You are trying to change a sale that does not exist or is not yours&401');
     }
   
-    if (!this.typeUser[role].status.some((authStatus) => authStatus !== sale.status)) {
+    if (!typeUser[role].status.some((authStatus) => authStatus !== sale.status)) {
       throw new Error('Invalid status&400');
     }
   
-    return Sale.update({ status }, { where: { [this.typeUser[role].id]: id, id: saleId } });
+    return Sale.update({ status }, { where: { [typeUser[role].id]: id, id: saleId } });
   },
 };
 

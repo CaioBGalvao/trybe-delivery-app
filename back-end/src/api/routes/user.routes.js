@@ -4,9 +4,9 @@ const { userController } = require('../controllers');
 const userRouter = Router();
 
 userRouter
-  .post('', userController.create)
-  .get('', userController.findAll)
+  .post('/', userController.create)
+  .get('/sellers', userController.findAllSellers)
   .get('/:id', userController.findById)
-  .get('/sellers', userController.findAllSellers);
+  .get('/', userController.findAll);
 
 module.exports = userRouter;

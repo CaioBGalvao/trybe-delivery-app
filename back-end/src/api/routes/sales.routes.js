@@ -7,7 +7,7 @@ const salesRouter = Router();
 salesRouter
   .post('/', validateToken, salesController.create)
   .get('/', validateToken, salesController.findAll)
-  .get('/:id', validateToken, salesController.findOne)
+  .get('/:id', validateToken, salesController.findById)
   .patch('/:id', validateToken, salesController.patch);
 
 module.exports = salesRouter;

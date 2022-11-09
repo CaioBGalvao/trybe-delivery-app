@@ -18,9 +18,11 @@ const salesController = {
     const sales = await salesService.findAll(user); 
     return res.status(200).json(sales);
   },
-  findOne: async (req, res) => {
+  findById: async (req, res) => {
     const { id } = req.params;
-    const sale = await salesService.findOne(id);
+    const sale = await salesService.findById(id);
+
+    console.log(sale);
   
     if (!sale) res.status(404).json({ message: 'Sale not found' });
   

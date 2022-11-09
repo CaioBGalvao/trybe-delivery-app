@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function NewUserRegister() {
   const [name, setName] = useState('');
@@ -20,7 +20,7 @@ function NewUserRegister() {
     };
 
     try {
-      const response = await handleFetch('POST', '/login/cadastro', registerObj);
+      const response = await handleFetch('POST', '/users', registerObj);
       if (response.message === message) {
         setFailedRegister(true);
       }
