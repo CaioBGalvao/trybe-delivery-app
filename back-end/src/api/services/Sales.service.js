@@ -52,6 +52,7 @@ const salesService = {
       },
     ],
   }),
+
   patch: async ({ role, id, status, saleId }) => {
     const sale = await Sale.findOne({ where: { [typeUser[role].id]: id, id: saleId } });
   
