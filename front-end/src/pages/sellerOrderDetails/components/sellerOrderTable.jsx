@@ -4,11 +4,25 @@ import React, { useEffect, useState } from 'react';
 import handleFetch from '../../../services/api';
 
 function SellerOrderTable({ order }) {
+  const typeStatus = {
+    preparing: {
+      name: 'Preparando',
+      disabledValues: ['Preparando', 'Entregue'],
+    },
+    dispatch: {
+      name: 'Em Trânsito',
+      disabledValues: ['Em Trânsito', 'Pendente', 'Entregue'],
+    },
+  };
+
   const [orderDate, setOrderDate] = useState();
   const [disabled, setDisabled] = useState({
-    preparing: order.status === 'Preparando',
-    dispatch: order.status === 'Em Trânsito' || order.status === 'Pendente',
+    preparing: typeStatus.preparing
+      .disabledValues.some((name) => name === order.status),
+    dispatch: typeStatus.dispatch
+      .disabledValues.some((name) => name === order.status),
   });
+  const [statusLabel, setStatusLabel] = useState(order.status);
 
   useEffect(() => {
     const dateFormater = () => {
@@ -16,18 +30,18 @@ function SellerOrderTable({ order }) {
       setOrderDate(newDate);
     };
     dateFormater();
-  }, [order.saleDate]);
+  }, [order.saleDate, order.status]);
 
   const dataTest = 'seller_order_details__element-order';
 
   const statusCheck = async (type) => {
-    const typePatch = { preparing: 'Preparando', dispatch: 'Em Trânsito' };
-
-    await handleFetch(
+    const response = await handleFetch(
       'PATCH',
-      `/checkout/sales/status/${order.id}`,
-      { status: typePatch[type] },
+      `/sales/${order.id}`,
+      { status: typeStatus[type].name },
     );
+
+    setStatusLabel(response);
 
     setDisabled({
       preparing: type === 'preparing',
@@ -48,7 +62,7 @@ function SellerOrderTable({ order }) {
         <h4
           data-testid={ `${dataTest}-details-label-delivery-status` }
         >
-          { order.status }
+          { statusLabel }
         </h4>
         <button
           type="button"

@@ -17,13 +17,16 @@ const findOne = async (req, res) => {
   return res.status(200).json(sale);
 };
 
-const update = async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  const sale = await salesService.update(id, status);
-  if (!sale) res.status(404).json({ message: 'Sale not found' });
+const patch = async (req, res) => {
+  const { id: saleId } = req.params;
+  const { email, status } = req.body;
 
-  return res.status(200).json(sale);
+  const user = await securityServices.roleVerify(email);
+  const [response] = await salesService.patch({ ...user, status, saleId });
+
+  if (!response) throw new Error(`Status is already ${status}&400`);
+
+  return res.status(200).json(status);
 };
 
-module.exports = { findAll, findOne, update };
+module.exports = { findAll, findOne, patch };

@@ -26,11 +26,23 @@ const findOne = async (id) => Sale.findByPk(id, {
   ],
 });
 
-const update = async (id, stat) => Sale.update(
-  { status: stat },
-  { where: {
-    id,
-  } },
-);
+const patch = async ({ role, id, status, saleId }) => {
+  const typeUser = {
+    customer: { id: 'userId', status: ['Entregue'] },
+    seller: { id: 'sellerId', status: ['Preparando', 'Em Trânsito'] },
+  };
+  
+  const sale = await Sale.findOne({ where: { [typeUser[role].id]: id, id: saleId } });
 
-module.exports = { findAll, findOne, update };
+  if (!sale) {
+    throw new Error('You are trying to change a sale that does not exist or is not yours&401');
+  }
+
+  if (!typeUser[role].status.some((authStatus) => authStatus !== sale.status)) {
+    throw new Error('Invalid status&400');
+  }
+
+  return Sale.update({ status }, { where: { [typeUser[role].id]: id, id: saleId } });
+};
+
+module.exports = { findAll, findOne, patch };

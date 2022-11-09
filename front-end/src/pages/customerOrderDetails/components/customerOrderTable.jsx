@@ -20,7 +20,7 @@ function CustomerOrderTable({ order }) {
   const statusCheck = async () => {
     await handleFetch(
       'PATCH',
-      `/checkout/sales/status/${order.id}`,
+      `/sales/${order.id}`,
       { status: 'Entregue' },
     );
 
@@ -44,7 +44,7 @@ function CustomerOrderTable({ order }) {
           { orderDate }
         </h4>
         <h4
-          data-testid={ `${dataTest}-details-label-delivery-status${order.saleId}` }
+          data-testid={ `${dataTest}-details-label-delivery-status-${order.id}` }
         >
           { order.status }
         </h4>
