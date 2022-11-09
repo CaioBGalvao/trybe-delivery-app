@@ -19,6 +19,8 @@ const newUserSchema = Joi.object({
       'string.empty': 'Password is required&400',
       'any.required': 'Password is required&400',
     }),
+  role: Joi.string().empty('').optional()
+    .message('Role need to bem a string&400'),
 });
 
 const validateNewLogin = (newUserObject) => {
