@@ -7,7 +7,6 @@ const typeColumn = {
 
 const roleVerify = async ({ email }) => {
   const foundRole = await User.findOne({
-    // logging: console.log,
     attributes: ['role', 'id'],
     where: { email },
     raw: true,
@@ -17,7 +16,6 @@ const roleVerify = async ({ email }) => {
 
 const saleOwnerVerify = async ({ role, id, saleId }) => {
   const foundSale = await Sale.findAll({
-    // logging: console.log,
     attributes: ['id'],
     where: { [typeColumn[role]]: id },
     raw: true,

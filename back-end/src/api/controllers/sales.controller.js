@@ -21,8 +21,6 @@ const salesController = {
   findById: async (req, res) => {
     const { id } = req.params;
     const sale = await salesService.findById(id);
-
-    console.log(sale);
   
     if (!sale) res.status(404).json({ message: 'Sale not found' });
   
