@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { handlePut } from '../../../services/api';
+import React, { useEffect, useState } from 'react';
+import handleFetch from '../../../services/api';
 
 function CustomerOrderTable({ order }) {
   const [orderDate, setOrderDate] = useState(order.saleDate);
-  const [entregue, setEntregue] = useState(true);
+  const [disabled, setDisabled] = useState(order.status !== 'Em Trânsito');
 
   useEffect(() => {
     const sub = 10;
@@ -17,25 +17,18 @@ function CustomerOrderTable({ order }) {
     dateFormater();
   }, [orderDate]);
 
-  useEffect(() => {
-    if (order.status === 'Em Trânsito') {
-      setEntregue(false);
-    }
-  }, []);
+  const statusCheck = async () => {
+    await handleFetch(
+      'PATCH',
+      `/sales/${order.id}`,
+      { status: 'Entregue' },
+    );
 
-  const updateEntregue = async () => {
-    const data = {
-      status: 'Entregue',
-    };
-
-    try {
-      await handlePut('PUT', `/sales/${order.id}`, data);
-    } catch (e) {
-      console.log(e.message);
-    }
+    setDisabled(true);
   };
 
   const dataTest = 'customer_order_details__element-order';
+
   return (
     <section>
       <div>
@@ -51,15 +44,15 @@ function CustomerOrderTable({ order }) {
           { orderDate }
         </h4>
         <h4
-          data-testid={ `${dataTest}-details-label-delivery-status${order.saleId}` }
+          data-testid={ `${dataTest}-details-label-delivery-status-${order.id}` }
         >
           { order.status }
         </h4>
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
-          onClick={ updateEntregue }
-          disabled={ entregue }
+          onClick={ statusCheck }
+          disabled={ disabled }
         >
           Marcar Como Entregue
         </button>

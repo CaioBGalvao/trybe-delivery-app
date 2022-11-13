@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { clearLocalStorage, getFromLocalStorage } from '../utils/localStorage';
+import { Navigate } from 'react-router-dom';
+import {
+  getFromLocalStorage, clearLocalStorage } from '../../../utils/localStorage';
 
 function Header() {
   const [statusNavigate, setStatusNavigate] = useState(false);
@@ -20,18 +21,12 @@ function Header() {
     <div>
       <nav>
         <div>
-          <Link
-            data-testid="customer_products__element-navbar-link-products"
-            to="/customer/products"
+          <a
+            dataTestId="customer_products__element-navbar-link-orders"
+            href="/admin/manage"
           >
-            Produtos
-          </Link>
-          <Link
-            data-testid="customer_products__element-navbar-link-orders"
-            to="/customer/orders"
-          >
-            Meus Pedidos
-          </Link>
+            GERENCIAR USUÁRIOS
+          </a>
           <h1
             data-testid="customer_products__element-navbar-user-full-name"
           >

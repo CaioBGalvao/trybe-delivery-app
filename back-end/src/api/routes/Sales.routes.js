@@ -5,8 +5,9 @@ const { validateToken } = require('../security/jwt');
 const salesRouter = Router();
 
 salesRouter
+  .post('/', validateToken, salesController.create)
   .get('/', validateToken, salesController.findAll)
-  .get('/:id', validateToken, salesController.findOne)
-  .put('/:id', validateToken, salesController.update);
+  .get('/:id', validateToken, salesController.findById)
+  .patch('/:id', validateToken, salesController.patch);
 
 module.exports = salesRouter;

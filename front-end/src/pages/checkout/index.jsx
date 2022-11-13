@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header';
-import { getFromLocalStorage, setIntoLocalStorage } from '../../utils/localStorage';
 import handleFetch from '../../services/api';
+import { getFromLocalStorage, setIntoLocalStorage } from '../../utils/localStorage';
 
 export default function Checkout() {
   const dataTest = 'customer_checkout__element-order-table-';
@@ -22,7 +22,7 @@ export default function Checkout() {
 
   useEffect(() => {
     const getSellers = async () => {
-      const response = await handleFetch('GET', '/sellers');
+      const response = await handleFetch('GET', '/users/sellers');
       setSellers(response);
     };
     getSellers();
@@ -76,7 +76,7 @@ export default function Checkout() {
     };
 
     try {
-      const response = await handleFetch('POST', '/checkout', formate);
+      const response = await handleFetch('POST', '/sales', formate);
       console.log(response);
       history(`/customer/orders/${Number(response.saleId)}`);
     } catch (e) {

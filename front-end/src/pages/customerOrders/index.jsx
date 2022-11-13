@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
-import handleFetch from '../../services/api';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/header';
+import handleFetch from '../../services/api';
 import './index.css';
 
 function CustomerOrders() {
@@ -16,7 +16,6 @@ function CustomerOrders() {
     getSalesById();
   }, []);
 
-  console.log(sales);
   return (
     <section>
       <Header />

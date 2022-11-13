@@ -1,13 +1,28 @@
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { handlePut } from '../../../services/api';
+import handleFetch from '../../../services/api';
 
 function SellerOrderTable({ order }) {
+  const typeStatus = {
+    preparing: {
+      name: 'Preparando',
+      disabledValues: ['Preparando', 'Entregue'],
+    },
+    dispatch: {
+      name: 'Em Trânsito',
+      disabledValues: ['Em Trânsito', 'Pendente', 'Entregue'],
+    },
+  };
+
   const [orderDate, setOrderDate] = useState();
-  const [preparando, setPreparando] = useState(false);
-  const [transito, setTransito] = useState(true);
-  console.log(orderDate);
+  const [disabled, setDisabled] = useState({
+    preparing: typeStatus.preparing
+      .disabledValues.some((name) => name === order.status),
+    dispatch: typeStatus.dispatch
+      .disabledValues.some((name) => name === order.status),
+  });
+  const [statusLabel, setStatusLabel] = useState(order.status);
 
   useEffect(() => {
     const dateFormater = () => {
@@ -15,45 +30,25 @@ function SellerOrderTable({ order }) {
       setOrderDate(newDate);
     };
     dateFormater();
-  }, []);
-
-  useEffect(() => {
-    if (order.status === 'Preparando') {
-      setTransito(false);
-    }
-    if (order.status === 'Preparando'
-    || order.status === 'Em Trânsito'
-    || order.status === 'Entregue') {
-      setPreparando(true);
-    }
-  }, []);
-
-  const updatePreparando = async () => {
-    const data = {
-      status: 'Preparando',
-    };
-
-    try {
-      await handlePut('PUT', `/sales/${order.id}`, data);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  const updateTransito = async () => {
-    const data = {
-      status: 'Em Trânsito',
-    };
-
-    try {
-      await handlePut('PUT', `/sales/${order.id}`, data);
-      setTransito(true);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+  }, [order.saleDate, order.status]);
 
   const dataTest = 'seller_order_details__element-order';
+
+  const statusCheck = async (type) => {
+    const response = await handleFetch(
+      'PATCH',
+      `/sales/${order.id}`,
+      { status: typeStatus[type].name },
+    );
+
+    setStatusLabel(response);
+
+    setDisabled({
+      preparing: type === 'preparing',
+      dispatch: type === 'dispatch',
+    });
+  };
+
   return (
     <section>
       <div>
@@ -67,21 +62,23 @@ function SellerOrderTable({ order }) {
         <h4
           data-testid={ `${dataTest}-details-label-delivery-status` }
         >
-          { order.status }
+          { statusLabel }
         </h4>
         <button
           type="button"
+          name="preparing"
           data-testid="seller_order_details__button-preparing-check"
-          onClick={ updatePreparando }
-          disabled={ preparando }
+          onClick={ ({ target }) => statusCheck(target.name) }
+          disabled={ disabled.preparing }
         >
           Preparar Pedido
         </button>
         <button
           type="button"
+          name="dispatch"
           data-testid="seller_order_details__button-dispatch-check"
-          onClick={ updateTransito }
-          disabled={ transito }
+          onClick={ ({ target }) => statusCheck(target.name) }
+          disabled={ disabled.dispatch }
         >
           Saiu Para Entrega
         </button>
