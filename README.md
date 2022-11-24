@@ -1,5 +1,5 @@
 # Project App de Entregas
-## Ùltimo projeto de back-end
+## Último projeto de back-end
 
 Esse projeto foi o primeiro projeto fullstack desenvolvido em grupo. Eu fui responsável pelo Back-end junto com Bruna e Helio e o Front-End foi feito pelo Gabriel Coelho, Gabriel Oliveira e Amanda.
 
